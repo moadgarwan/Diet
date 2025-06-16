@@ -4,35 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meal Nutrition Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ----------  GLOBAL RESET & TYPOGRAPHY ---------- */
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
-        body{background:#f9f9f9;color:#333;line-height:1.6;padding:20px;font-size:16px;}
+        :root{
+            --primary:#4a6741;
+            --secondary:#5b7a52;
+            --accent:#dbe9db;
+        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
+        body{background:linear-gradient(180deg,#f9f9f9,#eef5ee);color:#333;line-height:1.6;padding:20px;font-size:16px;}
         .container{max-width:1600px;margin:0 auto;}
-        h1{color:#4a6741;margin-bottom:20px;text-align:center;font-size:30px;}
+        h1{color:var(--primary);margin-bottom:20px;text-align:center;font-size:30px;}
 
         /* ----------  CARD ---------- */
-        .card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 2px 5px rgba(0,0,0,.1);}
+        .card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,.1);border:1px solid #eee;}
         .card p{font-size:17px;margin-bottom:15px;}
 
         /* ----------  HEADINGS ---------- */
-        h2{color:#4a6741;margin-bottom:15px;font-size:24px;}
-        h3{color:#5b7a52;margin-bottom:10px;font-size:20px;}
+        h2{color:var(--primary);margin-bottom:15px;font-size:24px;}
+        h3{color:var(--secondary);margin-bottom:10px;font-size:20px;}
 
         /* ----------  CATEGORY HEADER ---------- */
-        .category-header{width:100%;padding:12px 15px;background:#dbe9db;color:#4a6741;font-weight:bold;border-radius:5px;margin:20px 0 15px;font-size:18px;}
+        .category-header{width:100%;padding:12px 15px;background:var(--accent);color:var(--primary);font-weight:bold;border-radius:5px;margin:20px 0 15px;font-size:18px;}
         .category-header:first-child{margin-top:0;}
 
         /* ----------  TABLES ---------- */
         .food-table,#mealBreakdownTable,#columnarTotalNutritionTable{width:100%;border-collapse:collapse;margin-bottom:20px;table-layout:auto;}
-        .food-table th,#mealBreakdownTable th,#columnarTotalNutritionTable th{background:#4a6741;color:#fff;padding:14px 10px;font-size:15px;white-space:nowrap;vertical-align:middle;border-bottom:1px solid #3a5033;border-right:1px solid #5b7a52;}
+        .food-table th,#mealBreakdownTable th,#columnarTotalNutritionTable th{background:linear-gradient(180deg,var(--primary),var(--secondary));color:#fff;padding:14px 10px;font-size:15px;white-space:nowrap;vertical-align:middle;border-bottom:1px solid #3a5033;border-right:1px solid #5b7a52;}
         .food-table th:first-child,#mealBreakdownTable th:first-child,#columnarTotalNutritionTable th:first-child{border-left:none;}
         .food-table th:last-child,#mealBreakdownTable th:last-child,#columnarTotalNutritionTable th:last-child{border-right:none;}
         .food-table th{text-align:left;}
         .food-table th:not(:nth-child(1)):not(:nth-child(2)){text-align:center;}
         #mealBreakdownTable th{text-align:left;}
         #mealBreakdownTable th:not(:first-child){text-align:center;}
-        #columnarTotalNutritionTable th{background:#5b7a52;text-align:center;}
+        #columnarTotalNutritionTable th{background:var(--secondary);text-align:center;}
 
         .food-table td,#mealBreakdownTable tbody td,#columnarTotalNutritionTable td{padding:14px 10px;border-bottom:1px solid #ddd;font-size:15px;vertical-align:middle;border-right:1px solid #e0e0e0;}
         .food-table td:first-child,#mealBreakdownTable tbody td:first-child,#columnarTotalNutritionTable td:first-child{border-left:none;}
@@ -41,26 +47,26 @@
         .food-table td:not(:nth-child(1)):not(:nth-child(2)){text-align:center;}
         #mealBreakdownTable tbody td{text-align:center;}
         #mealBreakdownTable tbody td:first-child{text-align:left;white-space:nowrap;}
-        #columnarTotalNutritionTable td{text-align:center;font-weight:bold;background:#e8f0e8;}
+        #columnarTotalNutritionTable td{text-align:center;font-weight:bold;background:#e8f5e8;}
 
-        .food-table tr:nth-child(even),#mealBreakdownTable tbody tr:nth-child(even){background:#f2f2f2;}
-        .food-table tr:hover,#mealBreakdownTable tbody tr:hover{background:#e5f0e5;}
+        .food-table tr:nth-child(even),#mealBreakdownTable tbody tr:nth-child(even){background:#f6f9f6;}
+        .food-table tr:hover,#mealBreakdownTable tbody tr:hover{background:#eff7ef;}
 
         /* ----------  INTERACTION ELEMENTS ---------- */
         .food-checkbox{transform:scale(1.2);margin-right:5px;}
         .customize-foods{display:none;margin-top:30px;}
         .food-selection{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:20px;}
-        .food-item{flex:1;min-width:230px;padding:15px;background:#f5f5f5;border-radius:8px;}
+        .food-item{flex:1;min-width:230px;padding:15px;background:#fafafa;border-radius:8px;}
         .food-title{font-weight:bold;margin-bottom:10px;font-size:18px;}
         .input-group{margin-bottom:10px;}
         label{display:block;margin-bottom:5px;font-weight:600;font-size:17px;}
-        input[type="number"]{width:100%;padding:12px;border:1px solid #ddd;border-radius:5px;font-size:17px;}
-        button{background:#4a6741;color:#fff;border:none;padding:14px 20px;border-radius:5px;cursor:pointer;font-size:18px;}
-        button:hover{background:#5b7a52;}
+        input[type="number"]{width:100%;padding:12px;border:1px solid var(--accent);border-radius:5px;font-size:17px;background:#fff;}
+        button{background:var(--primary);color:#fff;border:none;padding:14px 20px;border-radius:5px;cursor:pointer;font-size:18px;transition:background .3s,transform .2s;}
+        button:hover{background:var(--secondary);transform:translateY(-2px);}
         .button-container{display:flex;justify-content:space-between;gap:15px;margin-top:20px;}
         .button-container button{flex:1;}
         .no-meal-items{text-align:center;color:#999;padding:15px;background:#fff;border-radius:5px;font-size:17px;}
-        .table-wrapper{overflow-x:auto;margin-bottom:20px;}
+        .table-wrapper{overflow-x:auto;margin-bottom:20px;border:1px solid #eee;border-radius:8px;box-shadow:0 2px 4px rgba(0,0,0,.05);}
 
         /* ----------  PRINT STYLES ---------- */
         @media print{
