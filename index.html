@@ -3,211 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Nutrition Calculator</title>
+    <title>Your Macro Plan</title>
+
+    <!-- =============================  GLOBAL STYLES  ============================= -->
     <style>
-        /* ----------  GLOBAL RESET & TYPOGRAPHY ---------- */
-        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
-        body{background:#f9f9f9;color:#333;line-height:1.6;padding:20px;font-size:16px;}
-        .container{max-width:1600px;margin:0 auto;}
-        h1{color:#4a6741;margin-bottom:20px;text-align:center;font-size:30px;}
+        /* ---------- RESET & BASE TYPOGRAPHY ---------- */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
+        body { background:#f9f9f9; color:#333; line-height:1.6; padding:20px; font-size:16px; }
+        .container { max-width:1600px; margin:0 auto; }
 
-        /* ----------  CARD ---------- */
-        .card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 2px 5px rgba(0,0,0,.1);}
-        .card p{font-size:17px;margin-bottom:15px;}
+        /* ---------- LOGO / SITE TITLE ---------- */
+        h1 { color:#4a6741; margin-bottom:20px; text-align:center; font-size:32px; }
+        h1 .logo { background:#4a6741; color:#fff; padding:3px 10px; border-radius:6px;
+                   margin-right:8px; font-size:0.9em; letter-spacing:1px; }
 
-        /* ----------  HEADINGS ---------- */
-        h2{color:#4a6741;margin-bottom:15px;font-size:24px;}
-        h3{color:#5b7a52;margin-bottom:10px;font-size:20px;}
+        /* ---------- CARD ---------- */
+        .card { background:#fff; border-radius:10px; padding:20px; margin-bottom:20px;
+                box-shadow:0 2px 5px rgba(0,0,0,.1); }
+        .card p { font-size:17px; margin-bottom:15px; }
 
-        /* ----------  CATEGORY HEADER ---------- */
-        .category-header{width:100%;padding:12px 15px;background:#dbe9db;color:#4a6741;font-weight:bold;border-radius:5px;margin:20px 0 15px;font-size:18px;}
-        .category-header:first-child{margin-top:0;}
+        /* ---------- HEADINGS ---------- */
+        h2 { color:#4a6741; margin-bottom:15px; font-size:24px; }
+        h3 { color:#5b7a52; margin-bottom:10px; font-size:20px; }
 
-        /* ----------  TABLES ---------- */
-        .food-table,#mealBreakdownTable,#columnarTotalNutritionTable{width:100%;border-collapse:collapse;margin-bottom:20px;table-layout:auto;}
-        .food-table th,#mealBreakdownTable th,#columnarTotalNutritionTable th{background:#4a6741;color:#fff;padding:14px 10px;font-size:15px;white-space:nowrap;vertical-align:middle;border-bottom:1px solid #3a5033;border-right:1px solid #5b7a52;}
-        .food-table th:first-child,#mealBreakdownTable th:first-child,#columnarTotalNutritionTable th:first-child{border-left:none;}
-        .food-table th:last-child,#mealBreakdownTable th:last-child,#columnarTotalNutritionTable th:last-child{border-right:none;}
-        .food-table th{text-align:left;}
-        .food-table th:not(:nth-child(1)):not(:nth-child(2)){text-align:center;}
-        #mealBreakdownTable th{text-align:left;}
-        #mealBreakdownTable th:not(:first-child){text-align:center;}
-        #columnarTotalNutritionTable th{background:#5b7a52;text-align:center;}
+        /* ---------- CATEGORY HEADER ---------- */
+        .category-header { width:100%; padding:12px 15px; background:#dbe9db; color:#4a6741;
+                           font-weight:bold; border-radius:5px; margin:20px 0 15px; font-size:18px; }
 
-        .food-table td,#mealBreakdownTable tbody td,#columnarTotalNutritionTable td{padding:14px 10px;border-bottom:1px solid #ddd;font-size:15px;vertical-align:middle;border-right:1px solid #e0e0e0;}
-        .food-table td:first-child,#mealBreakdownTable tbody td:first-child,#columnarTotalNutritionTable td:first-child{border-left:none;}
-        .food-table td:last-child,#mealBreakdownTable tbody td:last-child,#columnarTotalNutritionTable td:last-child{border-right:none;}
-        .food-table td{text-align:left;}
-        .food-table td:not(:nth-child(1)):not(:nth-child(2)){text-align:center;}
-        #mealBreakdownTable tbody td{text-align:center;}
-        #mealBreakdownTable tbody td:first-child{text-align:left;white-space:nowrap;}
-        #columnarTotalNutritionTable td{text-align:center;font-weight:bold;background:#e8f0e8;}
+        /* ---------- TABLES ---------- */
+        .food-table, #mealBreakdownTable, #columnarTotalNutritionTable {
+            width:100%; border-collapse:collapse; margin-bottom:20px; table-layout:auto;
+        }
+        .food-table th, #mealBreakdownTable th, #columnarTotalNutritionTable th {
+            background:#4a6741; color:#fff; padding:14px 10px; font-size:15px; white-space:nowrap;
+            vertical-align:middle; border-bottom:1px solid #3a5033; border-right:1px solid #5b7a52;
+        }
+        .food-table th:first-child, #mealBreakdownTable th:first-child,
+        #columnarTotalNutritionTable th:first-child { border-left:none; }
+        .food-table th:last-child, #mealBreakdownTable th:last-child,
+        #columnarTotalNutritionTable th:last-child { border-right:none; }
 
-        .food-table tr:nth-child(even),#mealBreakdownTable tbody tr:nth-child(even){background:#f2f2f2;}
-        .food-table tr:hover,#mealBreakdownTable tbody tr:hover{background:#e5f0e5;}
+        .food-table th { text-align:left; }
+        .food-table th:not(:nth-child(1)):not(:nth-child(2)) { text-align:center; }
+        #mealBreakdownTable th { text-align:left; }
+        #mealBreakdownTable th:not(:first-child) { text-align:center; }
+        #columnarTotalNutritionTable th { background:#5b7a52; text-align:center; }
 
-        /* ----------  INTERACTION ELEMENTS ---------- */
-        .food-checkbox{transform:scale(1.2);margin-right:5px;}
-        .customize-foods{display:none;margin-top:30px;}
-        .food-selection{display:flex;flex-wrap:wrap;gap:15px;margin-bottom:20px;}
-        .food-item{flex:1;min-width:230px;padding:15px;background:#f5f5f5;border-radius:8px;}
-        .food-title{font-weight:bold;margin-bottom:10px;font-size:18px;}
-        .input-group{margin-bottom:10px;}
-        label{display:block;margin-bottom:5px;font-weight:600;font-size:17px;}
-        input[type="number"]{width:100%;padding:12px;border:1px solid #ddd;border-radius:5px;font-size:17px;}
-        button{background:#4a6741;color:#fff;border:none;padding:14px 20px;border-radius:5px;cursor:pointer;font-size:18px;}
-        button:hover{background:#5b7a52;}
-        .button-container{display:flex;justify-content:space-between;gap:15px;margin-top:20px;}
-        .button-container button{flex:1;}
-        .no-meal-items{text-align:center;color:#999;padding:15px;background:#fff;border-radius:5px;font-size:17px;}
-        .table-wrapper{overflow-x:auto;margin-bottom:20px;}
+        .food-table td, #mealBreakdownTable td, #columnarTotalNutritionTable td {
+            padding:14px 10px; border-bottom:1px solid #ddd; font-size:15px; vertical-align:middle;
+            border-right:1px solid #e0e0e0;
+        }
+        .food-table td:first-child, #mealBreakdownTable td:first-child,
+        #columnarTotalNutritionTable td:first-child { border-left:none; }
+        .food-table td:last-child, #mealBreakdownTable td:last-child,
+        #columnarTotalNutritionTable td:last-child { border-right:none; }
 
-        /* ----------  PRINT STYLES ---------- */
-        @media print{
-            body{font-size:10pt;-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-            body *{visibility:hidden !important;}
-            #printableReportArea,#printableReportArea *{visibility:visible !important;}
-            #printableReportArea{position:absolute !important;left:0 !important;top:0 !important;width:98% !important;margin:10mm auto !important;padding:0 !important;border:none !important;box-shadow:none !important;background:#fff !important;}
-            #printableReportArea h1#printReportHeadline{font-size:18pt !important;color:#000 !important;text-align:center !important;margin-bottom:10pt !important;}
-            #printableReportArea p#printReportDateRange{font-size:11pt !important;color:#000 !important;text-align:center !important;margin-bottom:15pt !important;}
-            #printableReportArea h2{font-size:14pt !important;color:#000 !important;border-bottom:1px solid #000 !important;margin:15pt 0 8pt !important;text-align:left !important;background:transparent !important;}
-            #printableReportArea .table-wrapper{overflow:visible !important;border:none !important;box-shadow:none !important;margin-bottom:12pt !important;width:100% !important;}
-            #printableReportArea table{width:100% !important;font-size:8pt !important;border-collapse:collapse !important;table-layout:auto;}
-            #printableReportArea th,#printableReportArea td{padding:3px 4px !important;color:#000 !important;border:1px solid #888 !important;white-space:normal !important;word-break:break-word !important;text-align:center !important;}
-            #printableReportArea #mealBreakdownTable th:first-child,#printableReportArea #mealBreakdownTable tbody td:first-child{text-align:left !important;white-space:normal !important;}
-            #printableReportArea th{background:#f0f0f0 !important;font-weight:bold !important;}
-            #resultsCard .button-container,#resultsCard #downloadPdfInfo{display:none !important;}
+        .food-table td { text-align:left; }
+        .food-table td:not(:nth-child(1)):not(:nth-child(2)) { text-align:center; }
+        #mealBreakdownTable td:not(:first-child) { text-align:center; }
+        #columnarTotalNutritionTable td { text-align:center; font-weight:bold; background:#e8f0e8; }
+
+        .food-table tr:nth-child(even), #mealBreakdownTable tr:nth-child(even) { background:#f2f2f2; }
+        .food-table tr:hover, #mealBreakdownTable tr:hover { background:#e5f0e5; }
+
+        /* ---------- FORM ELEMENTS ---------- */
+        .food-checkbox { transform:scale(1.2); margin-right:5px; }
+        .food-selection { display:flex; flex-wrap:wrap; gap:15px; margin-bottom:20px; }
+        .food-item { flex:1; min-width:230px; padding:15px; background:#f5f5f5; border-radius:8px; }
+        .food-title { font-weight:bold; margin-bottom:10px; font-size:18px; }
+        label { display:block; margin-bottom:5px; font-weight:600; font-size:17px; }
+        input[type="number"] { width:100%; padding:12px; border:1px solid #ddd; border-radius:5px; font-size:17px; }
+
+        /* ---------- BUTTONS ---------- */
+        button { background:#4a6741; color:#fff; border:none; padding:14px 20px; border-radius:5px;
+                 cursor:pointer; font-size:18px; }
+        button:hover { background:#5b7a52; }
+        .button-container { display:flex; gap:15px; margin-top:20px; }
+        .button-container button { flex:1; }
+
+        /* ---------- WRAPPERS ---------- */
+        .table-wrapper { overflow-x:auto; margin-bottom:20px; }
+
+        /* ---------- PRINT SETTINGS ---------- */
+        @page { size:legal landscape; margin:10mm; }
+        @media print {
+            body { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+            body * { visibility:hidden !important; }
+            #printableReportArea, #printableReportArea * { visibility:visible !important; }
+            #printableReportArea {
+                position:absolute; left:0; top:0; width:98%; margin:0; padding:0; border:none; box-shadow:none; background:#fff;
+            }
+            header, footer { display:none !important; }           /* hide browser hdr/ftr */
+            #resultsCard .button-container, #resultsCard #downloadPdfInfo { display:none !important; }
         }
 
-        /* ----------  RESPONSIVE ---------- */
+        /* ---------- RESPONSIVE ---------- */
         @media (max-width:1400px){
-            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,#columnarTotalNutritionTable th,#columnarTotalNutritionTable td{font-size:13px;padding:12px 8px;}
-            button{font-size:17px;padding:12px 18px;}
-            h1{font-size:28px;}h2{font-size:22px;}h3{font-size:19px;}
-            label{font-size:16px;}input[type="number"]{font-size:16px;}
+            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
+            #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:13px; padding:12px 8px; }
+            h1 { font-size:30px; } h2 { font-size:22px; }
         }
         @media (max-width:992px){
-            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,#columnarTotalNutritionTable th,#columnarTotalNutritionTable td{font-size:12px;padding:10px 6px;}
-            h1{font-size:26px;}h2{font-size:20px;}h3{font-size:18px;}
-            .category-header{font-size:17px;}button{font-size:16px;padding:10px 15px;}
-            label{font-size:15px;}input[type="number"]{font-size:15px;}
+            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
+            #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:12px; padding:10px 6px; }
+            h1 { font-size:28px; } h2 { font-size:20px; }
         }
         @media (max-width:768px){
-            .food-item{min-width:100%;}
-            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,#columnarTotalNutritionTable th,#columnarTotalNutritionTable td{font-size:11px;padding:8px 5px;}
-            h1{font-size:24px;}h2{font-size:18px;}h3{font-size:16px;}
-            .category-header{font-size:16px;}button{font-size:15px;padding:9px 12px;}
-            label{font-size:14px;}input[type="number"]{font-size:14px;}
+            .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
+            #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:11px; padding:8px 5px; }
+            h1 { font-size:24px; } h2 { font-size:18px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Meal Nutrition Calculator</h1>
 
-    <!-- ============================ STEP 1 – SELECTION ============================ -->
+    <!-- ===============  LOGO / TITLE  =============== -->
+    <h1><span class="logo">YMP</span>Your Macro Plan</h1>
+
+    <!-- ========================================================= -->
+    <!-- ===============  STEP 1 – SELECTION  ==================== -->
+    <!-- ========================================================= -->
     <div class="card" id="selectionCard">
         <h2>Step 1: Select Foods for Your Meal</h2>
-        <p>Check the foods you want to include in your meal (values per 100g or as stated):</p>
+        <p>Check the foods you want to include in your meal (values per 100 g or as stated):</p>
 
-        <!-- ---------- GRAINS & STAPLES ---------- -->
+        <!-- ----------  GRAINS & STAPLES  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Grains & Staples</div>
+            <div class="category-header">Grains &amp; Staples</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Iron (mg)</th><th>Vit C (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th></tr>
+                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="whole bread"></td><td>Whole Bread</td><td>264</td><td>11.4</td><td>45.4</td><td>4.0</td><td>1.36</td><td>3.15</td><td>0</td><td>56</td><td>0.16</td><td>150</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="brown rice"></td><td>Brown Rice</td><td>352</td><td>8.0</td><td>76</td><td>3.0</td><td>2.0</td><td>1.8</td><td>0</td><td>143</td><td>0.5</td><td>40</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="whole-wheat pasta"></td><td>Whole-wheat Pasta</td><td>357</td><td>14</td><td>73</td><td>3.0</td><td>3.0</td><td>3.6</td><td>0</td><td>128</td><td>0.3</td><td>70</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole bread"></td><td>Whole Bread</td><td>264</td><td>11.4</td><td>45.4</td><td>4.0</td><td>1.36</td><td>3.15</td><td>0</td><td>56</td><td>0.16</td><td>150</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="brown rice"></td><td>Brown Rice</td><td>352</td><td>8.0</td><td>76</td><td>3.0</td><td>2.0</td><td>1.8</td><td>0</td><td>143</td><td>0.5</td><td>40</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole-wheat pasta"></td><td>Whole‑wheat Pasta</td><td>357</td><td>14</td><td>73</td><td>3.0</td><td>3.0</td><td>3.6</td><td>0</td><td>128</td><td>0.3</td><td>70</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- ---------- PROTEINS ---------- -->
+        <!-- ----------  PROTEINS  ---------- -->
         <div class="table-wrapper">
             <div class="category-header">Proteins</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Iron (mg)</th><th>Vit C (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th></tr>
+                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="chicken breast"></td><td>Chicken Breast</td><td>114</td><td>22</td><td>0</td><td>3.0</td><td>0.7</td><td>0.4</td><td>0</td><td>28</td><td>0.8</td><td>13</td><td>7</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="beef 95% lean"></td><td>Beef (95% lean)</td><td>131</td><td>21</td><td>0</td><td>5.0</td><td>5.1</td><td>2.4</td><td>0</td><td>22</td><td>0.4</td><td>30</td><td>10</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="beef 90% lean"></td><td>Beef (90% lean)</td><td>170</td><td>20</td><td>0</td><td>10</td><td>4.8</td><td>2.2</td><td>0</td><td>20</td><td>0.4</td><td>30</td><td>10</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="beefLiver"></td><td>Beef Liver</td><td>135</td><td>20.4</td><td>3.9</td><td>3.6</td><td>4.0</td><td>4.9</td><td>1.0</td><td>18</td><td>0.9</td><td>20</td><td>12</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="egg" data-unit="egg"></td><td>Egg (medium, per egg)</td><td>63</td><td>5.5</td><td>0.36</td><td>4.4</td><td>0.53</td><td>0.72</td><td>0</td><td>5</td><td>0.05</td><td>40</td><td>57</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="eggWhite" data-unit="egg white"></td><td>Egg White (1 medium)</td><td>15</td><td>3.2</td><td>0.2</td><td>0.05</td><td>0.01</td><td>0.02</td><td>0</td><td>3.2</td><td>0.003</td><td>0</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="turkeyBreast"></td><td>Turkey Breast, skinless</td><td>114</td><td>23</td><td>0</td><td>1.4</td><td>0.90</td><td>0.50</td><td>0</td><td>30</td><td>0.81</td><td>0</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="salmonAtlanticWild"></td><td>Salmon, Atlantic (wild)</td><td>142</td><td>20</td><td>0</td><td>6.0</td><td>0.4</td><td>0</td><td>0</td><td>27</td><td>0.9</td><td>20</td><td>1760</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="tunaCannedLight"></td><td>Tuna, canned light (drained)</td><td>116</td><td>26</td><td>0</td><td>0.8</td><td>0.77</td><td>1.3</td><td>0</td><td>43</td><td>0.9</td><td>10</td><td>240</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="chicken breast"></td><td>Chicken Breast</td><td>114</td><td>22</td><td>0</td><td>3.0</td><td>0.7</td><td>0.4</td><td>0</td><td>28</td><td>0.8</td><td>13</td><td>7</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 95% lean"></td><td>Beef (95% lean)</td><td>131</td><td>21</td><td>0</td><td>5.0</td><td>5.1</td><td>2.4</td><td>0</td><td>22</td><td>0.4</td><td>30</td><td>10</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 90% lean"></td><td>Beef (90% lean)</td><td>170</td><td>20</td><td>0</td><td>10</td><td>4.8</td><td>2.2</td><td>0</td><td>20</td><td>0.4</td><td>30</td><td>10</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beefLiver"></td><td>Beef Liver</td><td>135</td><td>20.4</td><td>3.9</td><td>3.6</td><td>4.0</td><td>4.9</td><td>1.0</td><td>18</td><td>0.9</td><td>20</td><td>12</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="egg" data-unit="egg"></td><td>Egg (medium)</td><td>63</td><td>5.5</td><td>0.36</td><td>4.4</td><td>0.53</td><td>0.72</td><td>0</td><td>5</td><td>0.05</td><td>40</td><td>57</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="eggWhite" data-unit="egg white"></td><td>Egg White (1 medium)</td><td>15</td><td>3.2</td><td>0.2</td><td>0.05</td><td>0.01</td><td>0.02</td><td>0</td><td>3.2</td><td>0.003</td><td>0</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="turkeyBreast"></td><td>Turkey Breast, skinless</td><td>114</td><td>23</td><td>0</td><td>1.4</td><td>0.90</td><td>0.50</td><td>0</td><td>30</td><td>0.81</td><td>0</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="salmonAtlanticWild"></td><td>Salmon, Atlantic (wild)</td><td>142</td><td>20</td><td>0</td><td>6.0</td><td>0.4</td><td>0</td><td>0</td><td>27</td><td>0.9</td><td>20</td><td>1760</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="tunaCannedLight"></td><td>Tuna, canned light</td><td>116</td><td>26</td><td>0</td><td>0.8</td><td>0.77</td><td>1.3</td><td>0</td><td>43</td><td>0.9</td><td>10</td><td>240</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- ---------- NUTS & SEEDS ---------- -->
+        <!-- ----------  NUTS & SEEDS  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Nuts & Seeds</div>
+            <div class="category-header">Nuts &amp; Seeds</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Iron (mg)</th><th>Vit C (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th></tr>
+                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="almonds"></td><td>Almonds</td><td>579</td><td>21.2</td><td>21.6</td><td>49.9</td><td>3.1</td><td>3.7</td><td>0</td><td>268</td><td>0.14</td><td>3</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="walnuts"></td><td>Walnuts</td><td>654</td><td>15.2</td><td>13.7</td><td>65.2</td><td>3.1</td><td>2.9</td><td>1.3</td><td>158</td><td>0.54</td><td>9080</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="pumpkin seeds"></td><td>Pumpkin Seeds</td><td>559</td><td>30.2</td><td>10.7</td><td>49.0</td><td>7.9</td><td>8.8</td><td>1.9</td><td>592</td><td>0.14</td><td>150</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="cashews"></td><td>Cashews</td><td>553</td><td>18.2</td><td>30.2</td><td>43.8</td><td>5.8</td><td>6.7</td><td>0.5</td><td>292</td><td>0.42</td><td>50</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="almonds"></td><td>Almonds</td><td>579</td><td>21.2</td><td>21.6</td><td>49.9</td><td>3.1</td><td>3.7</td><td>0</td><td>268</td><td>0.14</td><td>3</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="walnuts"></td><td>Walnuts</td><td>654</td><td>15.2</td><td>13.7</td><td>65.2</td><td>3.1</td><td>2.9</td><td>1.3</td><td>158</td><td>0.54</td><td>9080</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="pumpkin seeds"></td><td>Pumpkin Seeds</td><td>559</td><td>30.2</td><td>10.7</td><td>49.0</td><td>7.9</td><td>8.8</td><td>1.9</td><td>592</td><td>0.14</td><td>150</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="cashews"></td><td>Cashews</td><td>553</td><td>18.2</td><td>30.2</td><td>43.8</td><td>5.8</td><td>6.7</td><td>0.5</td><td>292</td><td>0.42</td><td>50</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- ---------- VEGETABLES & FRUITS ---------- -->
+        <!-- ----------  VEGETABLES & FRUITS ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Vegetables & Fruits</div>
+            <div class="category-header">Vegetables &amp; Fruits</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Iron (mg)</th><th>Vit C (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th></tr>
+                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="apple"></td><td>Apple</td><td>52</td><td>0.26</td><td>13.8</td><td>0.17</td><td>0.04</td><td>0.12</td><td>4.6</td><td>5</td><td>0.04</td><td>7</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="avocado"></td><td>Avocado</td><td>160</td><td>2.0</td><td>8.5</td><td>14.7</td><td>0.64</td><td>0.55</td><td>10</td><td>29</td><td>0.26</td><td>0.11</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="banana"></td><td>Banana</td><td>89</td><td>1.09</td><td>22.8</td><td>0.33</td><td>0.15</td><td>0.26</td><td>8.7</td><td>27</td><td>0.37</td><td>27</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="broccoli"></td><td>Broccoli</td><td>34</td><td>2.82</td><td>6.64</td><td>0.37</td><td>0.41</td><td>0.73</td><td>89</td><td>21</td><td>0.18</td><td>80</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="carrot"></td><td>Carrot</td><td>41</td><td>0.93</td><td>9.58</td><td>0.24</td><td>0.24</td><td>0.30</td><td>5.6</td><td>12</td><td>0.14</td><td>12</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="cauliflower"></td><td>Cauliflower</td><td>25</td><td>1.92</td><td>4.97</td><td>0.28</td><td>0.27</td><td>0.42</td><td>44</td><td>15</td><td>0.18</td><td>21</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="gingerRoot"></td><td>Ginger Root</td><td>80</td><td>1.8</td><td>17.8</td><td>0.8</td><td>0.34</td><td>0.6</td><td>5</td><td>43</td><td>0.16</td><td>12</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="onion"></td><td>Onion</td><td>40</td><td>1.1</td><td>9.3</td><td>0.10</td><td>0.17</td><td>0.21</td><td>7.4</td><td>10</td><td>0.12</td><td>20</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="orange"></td><td>Orange</td><td>47</td><td>0.94</td><td>11.75</td><td>0.12</td><td>0.07</td><td>0.10</td><td>53.2</td><td>10</td><td>0.06</td><td>10</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="orangeJuice"></td><td>Orange Juice (raw)</td><td>45</td><td>0.70</td><td>10.0</td><td>0.20</td><td>0.05</td><td>0.20</td><td>50</td><td>11</td><td>0.10</td><td>10</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="pear"></td><td>Pear (with skin)</td><td>57</td><td>0.36</td><td>15.0</td><td>0.14</td><td>0.12</td><td>0.17</td><td>4.3</td><td>7</td><td>0.03</td><td>20</td><td>0</td></tr>
-                <!-- UPDATED POTATO ROW -->
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="potato"></td><td>Potato (flesh only, peeled)</td><td>77</td><td>2.0</td><td>17.5</td><td>0.1</td><td>0.29</td><td>0.80</td><td>19.7</td><td>23</td><td>0.30</td><td>10</td><td>0</td></tr>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="tomato"></td><td>Tomato</td><td>18</td><td>0.88</td><td>3.9</td><td>0.20</td><td>0.17</td><td>0.27</td><td>13.7</td><td>11</td><td>0.08</td><td>19</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="apple"></td><td>Apple</td><td>52</td><td>0.26</td><td>13.8</td><td>0.17</td><td>0.04</td><td>0.12</td><td>4.6</td><td>5</td><td>0.04</td><td>7</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="avocado"></td><td>Avocado</td><td>160</td><td>2.0</td><td>8.5</td><td>14.7</td><td>0.64</td><td>0.55</td><td>10</td><td>29</td><td>0.26</td><td>0.11</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="banana"></td><td>Banana</td><td>89</td><td>1.09</td><td>22.8</td><td>0.33</td><td>0.15</td><td>0.26</td><td>8.7</td><td>27</td><td>0.37</td><td>27</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="broccoli"></td><td>Broccoli</td><td>34</td><td>2.82</td><td>6.64</td><td>0.37</td><td>0.41</td><td>0.73</td><td>89</td><td>21</td><td>0.18</td><td>80</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="carrot"></td><td>Carrot</td><td>41</td><td>0.93</td><td>9.58</td><td>0.24</td><td>0.24</td><td>0.30</td><td>5.6</td><td>12</td><td>0.14</td><td>12</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="cauliflower"></td><td>Cauliflower</td><td>25</td><td>1.92</td><td>4.97</td><td>0.28</td><td>0.27</td><td>0.42</td><td>44</td><td>15</td><td>0.18</td><td>21</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="gingerRoot"></td><td>Ginger Root</td><td>80</td><td>1.8</td><td>17.8</td><td>0.8</td><td>0.34</td><td>0.6</td><td>5</td><td>43</td><td>0.16</td><td>12</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="onion"></td><td>Onion</td><td>40</td><td>1.1</td><td>9.3</td><td>0.10</td><td>0.17</td><td>0.21</td><td>7.4</td><td>10</td><td>0.12</td><td>20</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="orange"></td><td>Orange</td><td>47</td><td>0.94</td><td>11.75</td><td>0.12</td><td>0.07</td><td>0.10</td><td>53.2</td><td>10</td><td>0.06</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="orangeJuice"></td><td>Orange Juice (raw)</td><td>45</td><td>0.70</td><td>10.0</td><td>0.20</td><td>0.05</td><td>0.20</td><td>50</td><td>11</td><td>0.10</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="pear"></td><td>Pear (with skin)</td><td>57</td><td>0.36</td><td>15.0</td><td>0.14</td><td>0.12</td><td>0.17</td><td>4.3</td><td>7</td><td>0.03</td><td>20</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="potato"></td><td>Potato (flesh‑only, peeled)</td><td>77</td><td>2.0</td><td>17.5</td><td>0.1</td><td>0.29</td><td>0.80</td><td>19.7</td><td>23</td><td>0.30</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="tomato"></td><td>Tomato</td><td>18</td><td>0.88</td><td>3.9</td><td>0.20</td><td>0.17</td><td>0.27</td><td>13.7</td><td>11</td><td>0.08</td><td>19</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- ---------- OILS & FATS ---------- -->
+        <!-- ----------  OILS & FATS  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Oils & Fats</div>
+            <div class="category-header">Oils &amp; Fats</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Iron (mg)</th><th>Vit C (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th></tr>
+                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
                 </thead>
                 <tbody>
-                <tr><td><input type="checkbox" class="food-checkbox" data-food="olive oil"></td><td>Olive Oil</td><td>884</td><td>0</td><td>0</td><td>100</td><td>0</td><td>0.56</td><td>0</td><td>0</td><td>0</td><td>760</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="olive oil"></td><td>Olive Oil</td><td>884</td><td>0</td><td>0</td><td>100</td><td>0</td><td>0.56</td><td>0</td><td>0</td><td>0</td><td>760</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="button-container"><button id="continueBtn">Continue to Customize Amounts</button></div>
+        <div class="button-container"><button id="continueBtn">Continue to Customise Amounts</button></div>
     </div>
 
-    <!-- ============================ STEP 2 – CUSTOMIZE ============================ -->
+    <!-- ========================================================= -->
+    <!-- ===============  STEP 2 – CUSTOMISE  ==================== -->
+    <!-- ========================================================= -->
     <div id="customizeCard" class="card" style="display:none;">
-        <h2>Step 2: Customize Food Amounts &amp; Calculate</h2>
-        <p>Enter the amount for each food then click "Add to Meal &amp; Calculate". Use the 'Back' button if you wish to change food selections.</p>
+        <h2>Step 2: Customise Food Amounts &amp; Calculate</h2>
+        <p>Enter the amount for each food, then click “Add to Meal &amp; Calculate”.</p>
         <div id="selectedFoods" class="food-selection"></div>
         <div class="button-container">
             <button id="backBtn">Back to Food Selection</button>
@@ -215,7 +239,9 @@
         </div>
     </div>
 
-    <!-- ============================ STEP 3 – RESULTS ============================ -->
+    <!-- ========================================================= -->
+    <!-- ===============  STEP 3 – RESULTS  ====================== -->
+    <!-- ========================================================= -->
     <div id="resultsCard" class="card" style="display:none;">
         <div id="printableReportArea">
             <h1 id="printReportHeadline" style="text-align:center;color:#333;font-size:24px;margin-bottom:10px;"></h1>
@@ -226,21 +252,17 @@
                 <table id="mealBreakdownTable">
                     <thead>
                     <tr>
-                        <th>Food Item</th><th>Cals (kcal)</th><th>Protein (g)</th><th>Carbs (g)</th><th>Fat (g)</th><th>Zinc (mg)</th><th>Mg (mg)</th><th>Vit B6 (mg)</th><th>Vit C (mg)</th><th>&Omega;-3 ALA (mg)</th><th>&Omega;-3 EPA/DHA (mg)</th><th>Iron (mg)</th>
+                        <th>Food Item</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
+                        <th>Zinc</th><th>Mg</th><th>Vit B6</th><th>Vit C</th>
+                        <th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th><th>Iron</th>
                     </tr>
-                    </thead>
-                    <tbody></tbody>
+                    </thead><tbody></tbody>
                 </table>
             </div>
 
-            <div id="totalSummarySection">
-                <h2>Total Nutrition Summary</h2>
-                <div class="table-wrapper">
-                    <table id="columnarTotalNutritionTable">
-                        <thead></thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
+            <h2>Total Nutrition Summary</h2>
+            <div class="table-wrapper">
+                <table id="columnarTotalNutritionTable"><thead></thead><tbody></tbody></table>
             </div>
         </div>
 
@@ -249,17 +271,21 @@
             <button id="downloadSummaryBtn">Download Summary</button>
             <button id="startOverBtn">Start New Meal</button>
         </div>
-        <p id="downloadPdfInfo" style="font-size:.9em;color:#777;margin-top:15px;text-align:center;display:none;">To save as PDF, use your browser's print option and select "Save as PDF" as the destination.</p>
+        <p id="downloadPdfInfo" style="font-size:.9em;color:#777;margin-top:15px;text-align:center;display:none;">
+            In the print dialog choose <strong>Save as PDF</strong>, paper size <strong>Legal</strong>,
+            orientation <strong>Landscape</strong>, and disable headers/footers.
+        </p>
     </div>
 </div>
 
+<!-- =============================  JAVASCRIPT  ============================= -->
 <script>
-/* ----------  FOOD DATA ---------- */
-const foods={
+/* ---------- FOOD DATA ---------- */
+const foods = {
     "whole bread":{name:"Whole Bread",calories:264,protein:11.4,carbs:45.4,fat:4.0,zinc:1.36,magnesium:56,vitB6:0.16,ala:150,epa:0,dha:0,iron:3.15,vitC:0},
     "olive oil":{name:"Olive Oil",calories:884,protein:0,carbs:0,fat:100,zinc:0,magnesium:0,vitB6:0,ala:760,epa:0,dha:0,iron:0.56,vitC:0},
     "brown rice":{name:"Brown Rice",calories:352,protein:8.0,carbs:76,fat:3.0,zinc:2.0,magnesium:143,vitB6:0.5,ala:40,epa:0,dha:0,iron:1.8,vitC:0},
-    "whole-wheat pasta":{name:"Whole-wheat Pasta",calories:357,protein:14,carbs:73,fat:3.0,zinc:3.0,magnesium:128,vitB6:0.3,ala:70,epa:0,dha:0,iron:3.6,vitC:0},
+    "whole-wheat pasta":{name:"Whole‑wheat Pasta",calories:357,protein:14,carbs:73,fat:3.0,zinc:3.0,magnesium:128,vitB6:0.3,ala:70,epa:0,dha:0,iron:3.6,vitC:0},
     "chicken breast":{name:"Chicken Breast",calories:114,protein:22,carbs:0,fat:3.0,zinc:0.7,magnesium:28,vitB6:0.8,ala:13,epa:3,dha:4,iron:0.4,vitC:0},
     "beef 95% lean":{name:"Beef (95% lean)",calories:131,protein:21,carbs:0,fat:5.0,zinc:5.1,magnesium:22,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.4,vitC:0},
     "beef 90% lean":{name:"Beef (90% lean)",calories:170,protein:20,carbs:0,fat:10,zinc:4.8,magnesium:20,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.2,vitC:0},
@@ -281,119 +307,159 @@ const foods={
     "orange":{name:"Orange",calories:47,protein:0.94,carbs:11.75,fat:0.12,zinc:0.07,iron:0.10,vitC:53.2,magnesium:10,vitB6:0.06,ala:10,epa:0,dha:0},
     "orangeJuice":{name:"Orange Juice (raw)",calories:45,protein:0.70,carbs:10.0,fat:0.20,zinc:0.05,iron:0.20,vitC:50,magnesium:11,vitB6:0.10,ala:10,epa:0,dha:0},
     "pear":{name:"Pear (with skin)",calories:57,protein:0.36,carbs:15.0,fat:0.14,zinc:0.12,iron:0.17,vitC:4.3,magnesium:7,vitB6:0.03,ala:20,epa:0,dha:0},
-    /* UPDATED POTATO ENTRY */
-    "potato":{name:"Potato (flesh only, peeled)",calories:77,protein:2.0,carbs:17.5,fat:0.1,zinc:0.29,iron:0.80,vitC:19.7,magnesium:23,vitB6:0.30,ala:10,epa:0,dha:0},
+    "potato":{name:"Potato (flesh‑only, peeled)",calories:77,protein:2.0,carbs:17.5,fat:0.1,zinc:0.29,iron:0.80,vitC:19.7,magnesium:23,vitB6:0.30,ala:10,epa:0,dha:0},
     "salmonAtlanticWild":{name:"Salmon, Atlantic (wild)",calories:142,protein:20,carbs:0,fat:6.0,zinc:0.4,iron:0,vitC:0,magnesium:27,vitB6:0.9,ala:20,epa:800,dha:960},
     "tomato":{name:"Tomato",calories:18,protein:0.88,carbs:3.9,fat:0.20,zinc:0.17,iron:0.27,vitC:13.7,magnesium:11,vitB6:0.08,ala:19,epa:0,dha:0},
-    "tunaCannedLight":{name:"Tuna, canned light (drained)",calories:116,protein:26,carbs:0,fat:0.8,zinc:0.77,iron:1.3,vitC:0,magnesium:43,vitB6:0.9,ala:10,epa:100,dha:140},
+    "tunaCannedLight":{name:"Tuna, canned light",calories:116,protein:26,carbs:0,fat:0.8,zinc:0.77,iron:1.3,vitC:0,magnesium:43,vitB6:0.9,ala:10,epa:100,dha:140},
     "turkeyBreast":{name:"Turkey Breast, skinless",calories:114,protein:23,carbs:0,fat:1.4,zinc:0.90,iron:0.50,vitC:0,magnesium:30,vitB6:0.81,ala:0,epa:0,dha:0}
 };
 
-/* ----------  SCRIPT (unchanged except for new values auto‑computed) ---------- */
-const nutrientOrder=["calories","protein","carbs","fat","zinc","magnesium","vitB6","vitC","ala","epaDhaCombined","iron"];
-const nutrientDisplayNames={calories:"Calories (kcal)",protein:"Protein (g)",carbs:"Carbs (g)",fat:"Fat (g)",
-    zinc:"Zinc (mg)",magnesium:"Magnesium (mg)",vitB6:"Vit B6 (mg)",vitC:"Vit C (mg)",
-    ala:"&Omega;-3 ALA (mg)",epaDhaCombined:"&Omega;-3 EPA/DHA (mg)",iron:"Iron (mg)"};
+/* ---------- NUTRIENT ORDER & DISPLAY NAMES ---------- */
+const nutrientOrder = ["calories","protein","carbs","fat","zinc","magnesium","vitB6","vitC","ala","epaDhaCombined","iron"];
+const nutrientDisplayNames = {
+    calories:"Calories", protein:"Protein (g)", carbs:"Carbs (g)", fat:"Fat (g)",
+    zinc:"Zinc (mg)", magnesium:"Magnesium (mg)", vitB6:"Vit B6 (mg)", vitC:"Vit C (mg)",
+    ala:"Ω‑3 ALA (mg)", epaDhaCombined:"Ω‑3 EPA/DHA (mg)", iron:"Iron (mg)"
+};
 
-for(const k in foods){foods[k].epaDhaCombined=(foods[k].epa||0)+(foods[k].dha||0);}
+/* ---------- ADD EPA+DHA COMBINED PROPERTY ---------- */
+for(const k in foods){
+    foods[k].epaDhaCombined = (foods[k].epa||0) + (foods[k].dha||0);
+}
 
-let selectedFoodsForCurrentCustomization=[],
-    mealItems=[],
-    selectionCard=document.getElementById("selectionCard"),
-    customizeCard=document.getElementById("customizeCard"),
-    resultsCard=document.getElementById("resultsCard"),
-    selectedFoodsContainer=document.getElementById("selectedFoods"),
-    mealBreakdownTableBody=document.getElementById("mealBreakdownTable").getElementsByTagName("tbody")[0],
-    columnarTotalTable=document.getElementById("columnarTotalNutritionTable"),
-    columnarTotalThead=columnarTotalTable.tHead||columnarTotalTable.createTHead(),
-    columnarTotalTbody=columnarTotalTable.getElementsByTagName("tbody")[0]||columnarTotalTable.createTBody(),
-    downloadPdfInfo=document.getElementById("downloadPdfInfo");
+/* ---------- STATE ---------- */
+let selectedFoodsForCurrentCustomization = [];
+let mealItems = [];
 
-document.getElementById("continueBtn").addEventListener("click",goToCustomize);
-document.getElementById("backBtn").addEventListener("click",()=>{selectionCard.style.display="block";customizeCard.style.display="none";});
-document.getElementById("addToMealAndCalculateBtn").addEventListener("click",processCustomizedFoodsAndCalculate);
-document.getElementById("editMealBtn").addEventListener("click",prepareToEditMeal);
-document.getElementById("downloadSummaryBtn").addEventListener("click",downloadSummaryAsPdf);
-document.getElementById("startOverBtn").addEventListener("click",startNewMeal);
+const selectionCard = document.getElementById('selectionCard');
+const customizeCard  = document.getElementById('customizeCard');
+const resultsCard    = document.getElementById('resultsCard');
+const selectedFoodsContainer = document.getElementById('selectedFoods');
 
-function startNewMeal(){mealItems=[];selectedFoodsForCurrentCustomization=[];document.querySelectorAll(".food-checkbox:checked").forEach(c=>c.checked=false);downloadPdfInfo.style.display="none";goToSelection();}
-function goToCustomize(){const boxes=document.querySelectorAll(".food-checkbox:checked");if(boxes.length===0){alert("Please select at least one food to customize.");return;}
-selectedFoodsForCurrentCustomization=Array.from(boxes).map(cb=>cb.getAttribute("data-food"));displayCustomizeInputs(false);selectionCard.style.display="none";customizeCard.style.display="block";resultsCard.style.display="none";}
-function prepareToEditMeal(){if(mealItems.length===0){alert("There's no meal to edit. Please build a meal first.");goToSelection();return;}displayCustomizeInputs(true);selectionCard.style.display="none";customizeCard.style.display="block";resultsCard.style.display="none";}
-function goToSelection(){selectionCard.style.display="block";customizeCard.style.display="none";resultsCard.style.display="none";downloadPdfInfo.style.display="none";}
+const mealBreakdownTableBody = document.getElementById('mealBreakdownTable').querySelector('tbody');
+const columnarTotalTable = document.getElementById('columnarTotalNutritionTable');
+const columnarTotalThead = columnarTotalTable.tHead || columnarTotalTable.createTHead();
+const columnarTotalTbody = columnarTotalTable.tBodies[0] || columnarTotalTable.createTBody();
+const downloadPdfInfo = document.getElementById('downloadPdfInfo');
 
+document.getElementById('continueBtn').addEventListener('click', goToCustomize);
+document.getElementById('backBtn').addEventListener('click', () => { selectionCard.style.display='block'; customizeCard.style.display='none'; });
+document.getElementById('addToMealAndCalculateBtn').addEventListener('click', processCustomizedFoodsAndCalculate);
+document.getElementById('editMealBtn').addEventListener('click', prepareToEditMeal);
+document.getElementById('downloadSummaryBtn').addEventListener('click', downloadSummaryAsPdf);
+document.getElementById('startOverBtn').addEventListener('click', startNewMeal);
+
+/* ---------- NAVIGATION FUNCTIONS ---------- */
+function startNewMeal(){
+    mealItems=[]; selectedFoodsForCurrentCustomization=[];
+    document.querySelectorAll('.food-checkbox:checked').forEach(cb=>cb.checked=false);
+    downloadPdfInfo.style.display='none';
+    goToSelection();
+}
+function goToSelection(){ selectionCard.style.display='block'; customizeCard.style.display='none'; resultsCard.style.display='none'; }
+function goToCustomize(){
+    const boxes=[...document.querySelectorAll('.food-checkbox:checked')];
+    if(boxes.length===0){ alert('Please select at least one food.'); return; }
+    selectedFoodsForCurrentCustomization = boxes.map(cb=>cb.dataset.food);
+    displayCustomizeInputs(false);
+    selectionCard.style.display='none'; customizeCard.style.display='block'; resultsCard.style.display='none';
+}
+function prepareToEditMeal(){
+    if(mealItems.length===0){ alert("There's no meal to edit."); goToSelection(); return; }
+    displayCustomizeInputs(true);
+    selectionCard.style.display='none'; customizeCard.style.display='block'; resultsCard.style.display='none';
+}
+
+/* ---------- DISPLAY INPUTS ---------- */
 function displayCustomizeInputs(isEditing){
-    selectedFoodsContainer.innerHTML="";
-    let itemsToDisplay=isEditing?mealItems.map((it,i)=>({foodType:it.type,amount:it.amount,unit:it.unit,originalIndexInMeal:i}))
-        :selectedFoodsForCurrentCustomization.map(t=>({foodType:t}));
-    itemsToDisplay.forEach((info,idx)=>{
-        const foodData=foods[info.foodType];if(!foodData)return;
-        const id=info.foodType.replace(/\s+/g,"")+"Amt_"+idx;
-        const unit=!info.unit?document.querySelector(`.food-checkbox[data-food="${info.foodType}"]`)?.getAttribute("data-unit")||"grams":info.unit;
-        const label=(unit==="egg"||unit==="egg white")?`Number of ${foodData.name}s`:`${foodData.name} amount (grams)`;
-        const placeholder=(unit==="egg"||unit==="egg white")?"Enter number":"Enter amount (g)";
-        selectedFoodsContainer.insertAdjacentHTML("beforeend",`<div class="food-item"><div class="food-title">${foodData.name}</div><div class="input-group"><label for="${id}">${label}</label><input type="number" id="${id}" min="0" placeholder="${placeholder}" data-food-type="${info.foodType}" data-unit="${unit}" value="${isEditing?(info.amount||""):""}"></div></div>`);
+    selectedFoodsContainer.innerHTML='';
+    const items = isEditing
+        ? mealItems.map((item,i)=>({foodType:item.type,amount:item.amount,unit:item.unit,index:i}))
+        : selectedFoodsForCurrentCustomization.map(type=>({foodType:type}));
+
+    items.forEach((info,idx)=>{
+        const f=foods[info.foodType]; if(!f) return;
+        const id=`${info.foodType.replace(/\s+/g,'')}_amt_${idx}`;
+        const unit= info.unit || document.querySelector(`.food-checkbox[data-food="${info.foodType}"]`)?.dataset.unit || 'grams';
+        const labelTxt = (unit==='egg'||unit==='egg white') ? `Number of ${f.name}s` : `${f.name} amount (g)`;
+        const placeholder = (unit==='egg'||unit==='egg white') ? 'Enter number' : 'Enter amount (g)';
+        selectedFoodsContainer.insertAdjacentHTML('beforeend',
+            `<div class="food-item">
+                <div class="food-title">${f.name}</div>
+                <label for="${id}">${labelTxt}</label>
+                <input type="number" id="${id}" min="0" placeholder="${placeholder}"
+                       data-food-type="${info.foodType}" data-unit="${unit}"
+                       value="${isEditing ? info.amount : ''}">
+             </div>`);
     });
 }
 
+/* ---------- PROCESS & CALCULATE ---------- */
 function processCustomizedFoodsAndCalculate(){
-    const newMeal=[];let any=false;
-    selectedFoodsContainer.querySelectorAll(".food-item input[type='number']").forEach(inp=>{
-        const ft=inp.getAttribute("data-food-type"),amt=parseFloat(inp.value),unit=inp.getAttribute("data-unit")||"grams";
-        if(ft&&!isNaN(amt)&&amt>0){newMeal.push({type:ft,amount:amt,unit:unit});any=true;}
+    const newMeal=[]; let valid=false;
+    selectedFoodsContainer.querySelectorAll('input[type=number]').forEach(inp=>{
+        const val=parseFloat(inp.value); if(!val||val<=0) return;
+        newMeal.push({type:inp.dataset['foodType'], amount:val, unit:inp.dataset['unit']});
+        valid=true;
     });
-    if(!any){alert("Please enter a valid amount for at least one food.");return;}
-    mealItems=newMeal;document.querySelectorAll(".food-checkbox:checked").forEach(c=>c.checked=false);selectedFoodsForCurrentCustomization=[];
+    if(!valid){ alert('Provide a positive amount for at least one food.'); return; }
+    mealItems=newMeal;
+    document.querySelectorAll('.food-checkbox:checked').forEach(cb=>cb.checked=false);
+    selectedFoodsForCurrentCustomization=[];
     calculateNutrition();
 }
 
 function calculateNutrition(){
-    if(mealItems.length===0){mealBreakdownTableBody.innerHTML=`<tr><td colspan="${nutrientOrder.length+1}" style="text-align:center;">Your meal is currently empty.</td></tr>`;
-        columnarTotalThead.innerHTML="";columnarTotalTbody.innerHTML=`<tr><td colspan="${nutrientOrder.length}" style="text-align:center;">No totals to display.</td></tr>`;downloadPdfInfo.style.display="none";
-        selectionCard.style.display="none";customizeCard.style.display="none";resultsCard.style.display="block";return;}
-    const totals={};nutrientOrder.forEach(n=>totals[n]=0);
-    mealBreakdownTableBody.innerHTML="";columnarTotalThead.innerHTML="";columnarTotalTbody.innerHTML="";
-    mealItems.forEach(it=>{
-        const d=foods[it.type];if(!d)return;
-        const factor=(it.unit==="egg"||it.unit==="egg white")?it.amount:it.amount/100;
+    if(mealItems.length===0){
+        mealBreakdownTableBody.innerHTML='<tr><td colspan="12" style="text-align:center;">Your meal is empty.</td></tr>';
+        columnarTotalThead.innerHTML=''; columnarTotalTbody.innerHTML='';
+        selectionCard.style.display='none'; customizeCard.style.display='none'; resultsCard.style.display='block';
+        return;
+    }
+    const totals={}; nutrientOrder.forEach(n=>totals[n]=0);
+    mealBreakdownTableBody.innerHTML=''; columnarTotalThead.innerHTML=''; columnarTotalTbody.innerHTML='';
+
+    mealItems.forEach(item=>{
+        const d=foods[item.type]; if(!d) return;
+        const factor=(item.unit==='egg'||item.unit==='egg white') ? item.amount : item.amount/100;
         const row=mealBreakdownTableBody.insertRow();
-        row.insertCell().textContent= d.name + (it.unit==="egg"||it.unit==="egg white"?` (${it.amount} ${it.unit}${it.amount>1?"s":""})`:` (${it.amount}g)`);
+        row.insertCell().textContent = d.name + (item.unit==='egg'||item.unit==='egg white'
+                                               ? ` (${item.amount} ${item.unit}${item.amount>1?'s':''})`
+                                               : ` (${item.amount}g)`);
+
         nutrientOrder.forEach(n=>{
-            const val=n==="epaDhaCombined"?((d.epa||0)+(d.dha||0))*factor:(d[n]||0)*factor;
+            const val=(n==='epaDhaCombined' ? d[n] : d[n]) * factor;
             totals[n]+=val;
-            let dp=n==="calories"?0:1;
-            if(["zinc","vitB6","iron","epaDhaCombined"].includes(n)&&!(val<1&&val!==0))dp=2;
-            if(n==="ala"&&val>100)dp=0;
-            if(val<1&&val!==0&&["epaDhaCombined","vitB6","zinc","iron","ala"].includes(n))dp=3;
-            row.insertCell().textContent=val.toFixed(dp);
+            row.insertCell().textContent = (n==='calories' ? val.toFixed(0) : val.toFixed(val<1?2:1));
         });
     });
-    const hrow=columnarTotalThead.insertRow(),vrow=columnarTotalTbody.insertRow();
+
+    const h=columnarTotalThead.insertRow(), v=columnarTotalTbody.insertRow();
     nutrientOrder.forEach(n=>{
-        hrow.insertCell().innerHTML=nutrientDisplayNames[n];
-        const tot=totals[n];
-        let dp=n==="calories"?0:1;
-        if(["zinc","vitB6","iron","epaDhaCombined"].includes(n)&&!(tot<1&&tot!==0))dp=2;
-        if(n==="ala"&&tot>100)dp=0;
-        if(tot<1&&tot!==0&&["epaDhaCombined","vitB6","zinc","iron","ala"].includes(n))dp=3;
-        vrow.insertCell().textContent=tot.toFixed(dp);
+        h.insertCell().innerHTML=nutrientDisplayNames[n];
+        v.insertCell().textContent = (n==='calories' ? totals[n].toFixed(0) : totals[n].toFixed(totals[n]<1?2:1));
     });
-    selectionCard.style.display="none";customizeCard.style.display="none";resultsCard.style.display="block";downloadPdfInfo.style.display="block";
+
+    selectionCard.style.display='none'; customizeCard.style.display='none'; resultsCard.style.display='block';
+    downloadPdfInfo.style.display='block';
 }
 
+/* ---------- DOWNLOAD / PRINT ---------- */
 function downloadSummaryAsPdf(){
-    const headline=document.getElementById("printReportHeadline"),rangeEl=document.getElementById("printReportDateRange");
-    headline.textContent="Mouad's Garwan Diet Plan";
-    const now=new Date(),future=new Date();future.setDate(now.getDate()+10);
-    const opts={year:"numeric",month:"long",day:"numeric"};
-    rangeEl.textContent="Date Range: "+now.toLocaleDateString(undefined,opts)+" - "+future.toLocaleDateString(undefined,opts);
-    document.body.classList.add("body-is-printing");window.print();
-    window.addEventListener("afterprint",()=>document.body.classList.remove("body-is-printing"),{once:true});
-    downloadPdfInfo.style.display="block";
+    document.getElementById('printReportHeadline').textContent='Your Macro Plan Report';
+    const today=new Date(), later=new Date(); later.setDate(today.getDate()+10);
+    const opts={year:'numeric',month:'long',day:'numeric'};
+    document.getElementById('printReportDateRange').textContent =
+        `Date Range: ${today.toLocaleDateString(undefined,opts)} – ${later.toLocaleDateString(undefined,opts)}`;
+
+    document.body.classList.add('body-is-printing');
+    window.print();
+    window.addEventListener('afterprint',()=>document.body.classList.remove('body-is-printing'),{once:true});
 }
 
-selectedFoodsContainer.addEventListener("keyup",e=>{
-    if(e.target.type==="number"&&e.key==="Enter"){if(!selectedFoodsContainer.contains(document.activeElement))return;processCustomizedFoodsAndCalculate();}
+/* ---------- ENTER KEY SHORTCUT ---------- */
+selectedFoodsContainer.addEventListener('keyup',e=>{
+    if(e.target.type==='number' && e.key==='Enter') processCustomizedFoodsAndCalculate();
 });
 </script>
 </body>
