@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Nutrition Calculator</title>
+    <title>Mouad Garwan Plan</title>
     <style>
         /* ----------  GLOBAL RESET & TYPOGRAPHY ---------- */
         *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;}
@@ -103,7 +103,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>Meal Nutrition Calculator</h1>
+    <h1>Mouad Garwan Plan</h1>
 
     <!-- ============================ STEP 1 – SELECTION ============================ -->
     <div class="card" id="selectionCard">
@@ -383,7 +383,7 @@ function calculateNutrition(){
 
 function downloadSummaryAsPdf(){
     const headline=document.getElementById("printReportHeadline"),rangeEl=document.getElementById("printReportDateRange");
-    headline.textContent="Mouad's Garwan Diet Plan";
+    headline.textContent="Mouad Garwan Plan";
     const now=new Date(),future=new Date();future.setDate(now.getDate()+10);
     const opts={year:"numeric",month:"long",day:"numeric"};
     rangeEl.textContent="Date Range: "+now.toLocaleDateString(undefined,opts)+" - "+future.toLocaleDateString(undefined,opts);
