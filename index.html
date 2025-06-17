@@ -4,48 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Macro Plan</title>
+    
+    <!-- Google Fonts for Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- =============================  GLOBAL STYLES  ============================= -->
+    <!-- =============================  GLOBAL STYLES  ============================= -->
     <style>
         /* ---------- RESET & BASE TYPOGRAPHY ---------- */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif; }
         body { background:#f9f9f9; color:#333; line-height:1.6; padding:20px; font-size:16px; }
+        body.rtl { direction: rtl; line-height: 1.7; }
+        body.rtl * { font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .container { max-width:1600px; margin:0 auto; }
 
-        /* ---------- LOGO / SITE TITLE ---------- */
-        h1 { color:#4a6741; margin-bottom:20px; text-align:center; font-size:32px; }
-        h1 .logo { background:#4a6741; color:#fff; padding:3px 10px; border-radius:6px;
-                   margin-right:8px; font-size:0.9em; letter-spacing:1px; }
+        /* ---------- LANGUAGE SELECTOR ---------- */
+        .language-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+        .lang-btn {
+            background: #fff;
+            border: 2px solid #4a6741;
+            color: #4a6741;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .lang-btn[data-lang="ar"] {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .lang-btn:hover {
+            background: #f0f0f0;
+        }
+        .lang-btn.active {
+            background: #4a6741;
+            color: #fff;
+        }
+
+        /* ---------- LOGO / SITE TITLE ---------- */
+        .logo-container { text-align: center; margin-bottom: 30px; }
+        .logo-wrapper { display: block; margin-bottom: 15px; }
+        .logo { 
+            display: inline-block;
+            background:#4a6741; 
+            color:#fff; 
+            padding:12px 30px; 
+            border-radius:8px;
+            font-size:36px; 
+            font-weight:bold;
+            letter-spacing:2px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            text-decoration: none;
+        }
+        .logo:focus {
+            outline: 3px solid #5b7a52;
+            outline-offset: 3px;
+        }
+        .logo:hover {
+            background:#5b7a52;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,.15);
+        }
+        .logo:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 3px rgba(0,0,0,.1);
+        }
+        h1 { color:#4a6741; text-align:center; font-size:32px; margin:0; margin-top: 15px; }
+        body.rtl h1 { font-weight: 700; }
 
         /* ---------- CARD ---------- */
         .card { background:#fff; border-radius:10px; padding:20px; margin-bottom:20px;
                 box-shadow:0 2px 5px rgba(0,0,0,.1); }
         .card p { font-size:17px; margin-bottom:15px; }
+        body.rtl .card p { line-height: 1.8; }
 
         /* ---------- HEADINGS ---------- */
         h2 { color:#4a6741; margin-bottom:15px; font-size:24px; }
         h3 { color:#5b7a52; margin-bottom:10px; font-size:20px; }
+        body.rtl h2, body.rtl h3 { font-weight: 700; }
 
         /* ---------- CATEGORY HEADER ---------- */
         .category-header { width:100%; padding:12px 15px; background:#dbe9db; color:#4a6741;
                            font-weight:bold; border-radius:5px; margin:20px 0 15px; font-size:18px; }
+        body.rtl .category-header { font-weight: 700; }
 
         /* ---------- TABLES ---------- */
         .food-table, #mealBreakdownTable, #columnarTotalNutritionTable {
             width:100%; border-collapse:collapse; margin-bottom:20px; table-layout:auto;
         }
+        body.rtl .food-table, body.rtl #mealBreakdownTable, body.rtl #columnarTotalNutritionTable {
+            direction: rtl;
+        }
         .food-table th, #mealBreakdownTable th, #columnarTotalNutritionTable th {
             background:#4a6741; color:#fff; padding:14px 10px; font-size:15px; white-space:nowrap;
             vertical-align:middle; border-bottom:1px solid #3a5033; border-right:1px solid #5b7a52;
         }
+        body.rtl .food-table th, body.rtl #mealBreakdownTable th, body.rtl #columnarTotalNutritionTable th {
+            border-right: none;
+            border-left: 1px solid #5b7a52;
+            font-weight: 600;
+        }
         .food-table th:first-child, #mealBreakdownTable th:first-child,
         #columnarTotalNutritionTable th:first-child { border-left:none; }
+        body.rtl .food-table th:first-child, body.rtl #mealBreakdownTable th:first-child,
+        body.rtl #columnarTotalNutritionTable th:first-child { border-right:none; }
         .food-table th:last-child, #mealBreakdownTable th:last-child,
         #columnarTotalNutritionTable th:last-child { border-right:none; }
+        body.rtl .food-table th:last-child, body.rtl #mealBreakdownTable th:last-child,
+        body.rtl #columnarTotalNutritionTable th:last-child { border-left:none; }
 
         .food-table th { text-align:left; }
+        body.rtl .food-table th { text-align:right; }
         .food-table th:not(:nth-child(1)):not(:nth-child(2)) { text-align:center; }
         #mealBreakdownTable th { text-align:left; }
+        body.rtl #mealBreakdownTable th { text-align:right; }
         #mealBreakdownTable th:not(:first-child) { text-align:center; }
         #columnarTotalNutritionTable th { background:#5b7a52; text-align:center; }
 
@@ -53,12 +135,22 @@
             padding:14px 10px; border-bottom:1px solid #ddd; font-size:15px; vertical-align:middle;
             border-right:1px solid #e0e0e0;
         }
+        body.rtl .food-table td, body.rtl #mealBreakdownTable td, body.rtl #columnarTotalNutritionTable td {
+            border-right: none;
+            border-left: 1px solid #e0e0e0;
+            font-size: 16px;
+        }
         .food-table td:first-child, #mealBreakdownTable td:first-child,
         #columnarTotalNutritionTable td:first-child { border-left:none; }
+        body.rtl .food-table td:first-child, body.rtl #mealBreakdownTable td:first-child,
+        body.rtl #columnarTotalNutritionTable td:first-child { border-right:none; }
         .food-table td:last-child, #mealBreakdownTable td:last-child,
         #columnarTotalNutritionTable td:last-child { border-right:none; }
+        body.rtl .food-table td:last-child, body.rtl #mealBreakdownTable td:last-child,
+        body.rtl #columnarTotalNutritionTable td:last-child { border-left:none; }
 
         .food-table td { text-align:left; }
+        body.rtl .food-table td { text-align:right; }
         .food-table td:not(:nth-child(1)):not(:nth-child(2)) { text-align:center; }
         #mealBreakdownTable td:not(:first-child) { text-align:center; }
         #columnarTotalNutritionTable td { text-align:center; font-weight:bold; background:#e8f0e8; }
@@ -68,16 +160,20 @@
 
         /* ---------- FORM ELEMENTS ---------- */
         .food-checkbox { transform:scale(1.2); margin-right:5px; }
+        body.rtl .food-checkbox { margin-right:0; margin-left:5px; }
         .food-selection { display:flex; flex-wrap:wrap; gap:15px; margin-bottom:20px; }
         .food-item { flex:1; min-width:230px; padding:15px; background:#f5f5f5; border-radius:8px; }
         .food-title { font-weight:bold; margin-bottom:10px; font-size:18px; }
         label { display:block; margin-bottom:5px; font-weight:600; font-size:17px; }
+        body.rtl label { font-weight: 600; }
         input[type="number"] { width:100%; padding:12px; border:1px solid #ddd; border-radius:5px; font-size:17px; }
+        body.rtl input[type="number"] { font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         /* ---------- BUTTONS ---------- */
         button { background:#4a6741; color:#fff; border:none; padding:14px 20px; border-radius:5px;
                  cursor:pointer; font-size:18px; }
         button:hover { background:#5b7a52; }
+        body.rtl button { font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .button-container { display:flex; gap:15px; margin-top:20px; }
         .button-container button { flex:1; }
 
@@ -93,8 +189,8 @@
             #printableReportArea {
                 position:absolute; left:0; top:0; width:98%; margin:0; padding:0; border:none; box-shadow:none; background:#fff;
             }
-            header, footer { display:none !important; }           /* hide browser hdr/ftr */
-            #resultsCard .button-container, #resultsCard #downloadPdfInfo { display:none !important; }
+            header, footer { display:none !important; }
+            #resultsCard .button-container, #resultsCard #downloadPdfInfo, .language-selector, .logo-container { display:none !important; }
         }
 
         /* ---------- RESPONSIVE ---------- */
@@ -102,193 +198,576 @@
             .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
             #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:13px; padding:12px 8px; }
             h1 { font-size:30px; } h2 { font-size:22px; }
+            .logo { font-size:32px; }
         }
         @media (max-width:992px){
             .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
             #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:12px; padding:10px 6px; }
             h1 { font-size:28px; } h2 { font-size:20px; }
+            .logo { font-size:30px; }
         }
         @media (max-width:768px){
             .food-table th,.food-table td,#mealBreakdownTable th,#mealBreakdownTable td,
             #columnarTotalNutritionTable th,#columnarTotalNutritionTable td { font-size:11px; padding:8px 5px; }
             h1 { font-size:24px; } h2 { font-size:18px; }
+            .logo { font-size:28px; padding: 10px 22px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="en">English</button>
+        <button class="lang-btn" data-lang="fr">Français</button>
+        <button class="lang-btn" data-lang="ar">العربية</button>
+    </div>
 
     <!-- ===============  LOGO / TITLE  =============== -->
-    <h1><span class="logo">YMP</span>Your Macro Plan</h1>
+    <div class="logo-container">
+        <div class="logo-wrapper">
+            <div class="logo" title="Return to Home" data-translate-title="returnToHome" tabindex="0" role="button">YMP</div>
+        </div>
+        <h1 data-translate="siteTitle">Your Macro Plan</h1>
+    </div>
 
     <!-- ========================================================= -->
-    <!-- ===============  STEP 1 – SELECTION  ==================== -->
+    <!-- ===============  STEP 1 – SELECTION  ==================== -->
     <!-- ========================================================= -->
     <div class="card" id="selectionCard">
-        <h2>Step 1: Select Foods for Your Meal</h2>
-        <p>Check the foods you want to include in your meal (values per 100 g or as stated):</p>
+        <h2 data-translate="step1Title">Step 1: Select Foods for Your Meal</h2>
+        <p data-translate="step1Description">Check the foods you want to include in your meal (values per 100 g or as stated):</p>
 
         <!-- ----------  GRAINS & STAPLES  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Grains &amp; Staples</div>
+            <div class="category-header" data-translate="categoryGrains">Grains &amp; Staples</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
+                <tr>
+                    <th data-translate="thSelect">Select</th>
+                    <th data-translate="thFood">Food</th>
+                    <th data-translate="thCals">Cals</th>
+                    <th data-translate="thProtein">Protein</th>
+                    <th data-translate="thCarbs">Carbs</th>
+                    <th data-translate="thFat">Fat</th>
+                    <th data-translate="thZinc">Zinc</th>
+                    <th data-translate="thIron">Iron</th>
+                    <th data-translate="thVitC">Vit C</th>
+                    <th data-translate="thMg">Mg</th>
+                    <th data-translate="thVitB6">Vit B6</th>
+                    <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                    <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole bread"></td><td>Whole Bread</td><td>264</td><td>11.4</td><td>45.4</td><td>4.0</td><td>1.36</td><td>3.15</td><td>0</td><td>56</td><td>0.16</td><td>150</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="brown rice"></td><td>Brown Rice</td><td>352</td><td>8.0</td><td>76</td><td>3.0</td><td>2.0</td><td>1.8</td><td>0</td><td>143</td><td>0.5</td><td>40</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole-wheat pasta"></td><td>Whole‑wheat Pasta</td><td>357</td><td>14</td><td>73</td><td>3.0</td><td>3.0</td><td>3.6</td><td>0</td><td>128</td><td>0.3</td><td>70</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole bread"></td><td data-translate="foodWholeBread">Whole Bread</td><td>264</td><td>11.4</td><td>45.4</td><td>4.0</td><td>1.36</td><td>3.15</td><td>0</td><td>56</td><td>0.16</td><td>150</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="brown rice"></td><td data-translate="foodBrownRice">Brown Rice</td><td>352</td><td>8.0</td><td>76</td><td>3.0</td><td>2.0</td><td>1.8</td><td>0</td><td>143</td><td>0.5</td><td>40</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="whole-wheat pasta"></td><td data-translate="foodWholeWheatPasta">Whole‑wheat Pasta</td><td>357</td><td>14</td><td>73</td><td>3.0</td><td>3.0</td><td>3.6</td><td>0</td><td>128</td><td>0.3</td><td>70</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- ----------  PROTEINS  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Proteins</div>
+            <div class="category-header" data-translate="categoryProteins">Proteins</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
+                <tr>
+                    <th data-translate="thSelect">Select</th>
+                    <th data-translate="thFood">Food</th>
+                    <th data-translate="thCals">Cals</th>
+                    <th data-translate="thProtein">Protein</th>
+                    <th data-translate="thCarbs">Carbs</th>
+                    <th data-translate="thFat">Fat</th>
+                    <th data-translate="thZinc">Zinc</th>
+                    <th data-translate="thIron">Iron</th>
+                    <th data-translate="thVitC">Vit C</th>
+                    <th data-translate="thMg">Mg</th>
+                    <th data-translate="thVitB6">Vit B6</th>
+                    <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                    <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="chicken breast"></td><td>Chicken Breast</td><td>114</td><td>22</td><td>0</td><td>3.0</td><td>0.7</td><td>0.4</td><td>0</td><td>28</td><td>0.8</td><td>13</td><td>7</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 95% lean"></td><td>Beef (95% lean)</td><td>131</td><td>21</td><td>0</td><td>5.0</td><td>5.1</td><td>2.4</td><td>0</td><td>22</td><td>0.4</td><td>30</td><td>10</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 90% lean"></td><td>Beef (90% lean)</td><td>170</td><td>20</td><td>0</td><td>10</td><td>4.8</td><td>2.2</td><td>0</td><td>20</td><td>0.4</td><td>30</td><td>10</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="beefLiver"></td><td>Beef Liver</td><td>135</td><td>20.4</td><td>3.9</td><td>3.6</td><td>4.0</td><td>4.9</td><td>1.0</td><td>18</td><td>0.9</td><td>20</td><td>12</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="egg" data-unit="egg"></td><td>Egg (medium)</td><td>63</td><td>5.5</td><td>0.36</td><td>4.4</td><td>0.53</td><td>0.72</td><td>0</td><td>5</td><td>0.05</td><td>40</td><td>57</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="eggWhite" data-unit="egg white"></td><td>Egg White (1 medium)</td><td>15</td><td>3.2</td><td>0.2</td><td>0.05</td><td>0.01</td><td>0.02</td><td>0</td><td>3.2</td><td>0.003</td><td>0</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="turkeyBreast"></td><td>Turkey Breast, skinless</td><td>114</td><td>23</td><td>0</td><td>1.4</td><td>0.90</td><td>0.50</td><td>0</td><td>30</td><td>0.81</td><td>0</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="salmonAtlanticWild"></td><td>Salmon, Atlantic (wild)</td><td>142</td><td>20</td><td>0</td><td>6.0</td><td>0.4</td><td>0</td><td>0</td><td>27</td><td>0.9</td><td>20</td><td>1760</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="tunaCannedLight"></td><td>Tuna, canned light</td><td>116</td><td>26</td><td>0</td><td>0.8</td><td>0.77</td><td>1.3</td><td>0</td><td>43</td><td>0.9</td><td>10</td><td>240</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="chicken breast"></td><td data-translate="foodChickenBreast">Chicken Breast</td><td>114</td><td>22</td><td>0</td><td>3.0</td><td>0.7</td><td>0.4</td><td>0</td><td>28</td><td>0.8</td><td>13</td><td>7</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 95% lean"></td><td data-translate="foodBeef95">Beef (95% lean)</td><td>131</td><td>21</td><td>0</td><td>5.0</td><td>5.1</td><td>2.4</td><td>0</td><td>22</td><td>0.4</td><td>30</td><td>10</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beef 90% lean"></td><td data-translate="foodBeef90">Beef (90% lean)</td><td>170</td><td>20</td><td>0</td><td>10</td><td>4.8</td><td>2.2</td><td>0</td><td>20</td><td>0.4</td><td>30</td><td>10</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="beefLiver"></td><td data-translate="foodBeefLiver">Beef Liver</td><td>135</td><td>20.4</td><td>3.9</td><td>3.6</td><td>4.0</td><td>4.9</td><td>1.0</td><td>18</td><td>0.9</td><td>20</td><td>12</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="egg" data-unit="egg"></td><td data-translate="foodEgg">Egg (medium)</td><td>63</td><td>5.5</td><td>0.36</td><td>4.4</td><td>0.53</td><td>0.72</td><td>0</td><td>5</td><td>0.05</td><td>40</td><td>57</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="eggWhite" data-unit="egg white"></td><td data-translate="foodEggWhite">Egg White (1 medium)</td><td>15</td><td>3.2</td><td>0.2</td><td>0.05</td><td>0.01</td><td>0.02</td><td>0</td><td>3.2</td><td>0.003</td><td>0</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="turkeyBreast"></td><td data-translate="foodTurkeyBreast">Turkey Breast, skinless</td><td>114</td><td>23</td><td>0</td><td>1.4</td><td>0.90</td><td>0.50</td><td>0</td><td>30</td><td>0.81</td><td>0</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="salmonAtlanticWild"></td><td data-translate="foodSalmon">Salmon, Atlantic (wild)</td><td>142</td><td>20</td><td>0</td><td>6.0</td><td>0.4</td><td>0</td><td>0</td><td>27</td><td>0.9</td><td>20</td><td>1760</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="tunaCannedLight"></td><td data-translate="foodTuna">Tuna, canned light</td><td>116</td><td>26</td><td>0</td><td>0.8</td><td>0.77</td><td>1.3</td><td>0</td><td>43</td><td>0.9</td><td>10</td><td>240</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- ----------  NUTS & SEEDS  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Nuts &amp; Seeds</div>
+            <div class="category-header" data-translate="categoryNutsSeeds">Nuts &amp; Seeds</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
+                <tr>
+                    <th data-translate="thSelect">Select</th>
+                    <th data-translate="thFood">Food</th>
+                    <th data-translate="thCals">Cals</th>
+                    <th data-translate="thProtein">Protein</th>
+                    <th data-translate="thCarbs">Carbs</th>
+                    <th data-translate="thFat">Fat</th>
+                    <th data-translate="thZinc">Zinc</th>
+                    <th data-translate="thIron">Iron</th>
+                    <th data-translate="thVitC">Vit C</th>
+                    <th data-translate="thMg">Mg</th>
+                    <th data-translate="thVitB6">Vit B6</th>
+                    <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                    <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="almonds"></td><td>Almonds</td><td>579</td><td>21.2</td><td>21.6</td><td>49.9</td><td>3.1</td><td>3.7</td><td>0</td><td>268</td><td>0.14</td><td>3</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="walnuts"></td><td>Walnuts</td><td>654</td><td>15.2</td><td>13.7</td><td>65.2</td><td>3.1</td><td>2.9</td><td>1.3</td><td>158</td><td>0.54</td><td>9080</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="pumpkin seeds"></td><td>Pumpkin Seeds</td><td>559</td><td>30.2</td><td>10.7</td><td>49.0</td><td>7.9</td><td>8.8</td><td>1.9</td><td>592</td><td>0.14</td><td>150</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="cashews"></td><td>Cashews</td><td>553</td><td>18.2</td><td>30.2</td><td>43.8</td><td>5.8</td><td>6.7</td><td>0.5</td><td>292</td><td>0.42</td><td>50</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="almonds"></td><td data-translate="foodAlmonds">Almonds</td><td>579</td><td>21.2</td><td>21.6</td><td>49.9</td><td>3.1</td><td>3.7</td><td>0</td><td>268</td><td>0.14</td><td>3</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="walnuts"></td><td data-translate="foodWalnuts">Walnuts</td><td>654</td><td>15.2</td><td>13.7</td><td>65.2</td><td>3.1</td><td>2.9</td><td>1.3</td><td>158</td><td>0.54</td><td>9080</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="pumpkin seeds"></td><td data-translate="foodPumpkinSeeds">Pumpkin Seeds</td><td>559</td><td>30.2</td><td>10.7</td><td>49.0</td><td>7.9</td><td>8.8</td><td>1.9</td><td>592</td><td>0.14</td><td>150</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="cashews"></td><td data-translate="foodCashews">Cashews</td><td>553</td><td>18.2</td><td>30.2</td><td>43.8</td><td>5.8</td><td>6.7</td><td>0.5</td><td>292</td><td>0.42</td><td>50</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- ----------  VEGETABLES & FRUITS ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Vegetables &amp; Fruits</div>
+            <div class="category-header" data-translate="categoryVegFruits">Vegetables &amp; Fruits</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
+                <tr>
+                    <th data-translate="thSelect">Select</th>
+                    <th data-translate="thFood">Food</th>
+                    <th data-translate="thCals">Cals</th>
+                    <th data-translate="thProtein">Protein</th>
+                    <th data-translate="thCarbs">Carbs</th>
+                    <th data-translate="thFat">Fat</th>
+                    <th data-translate="thZinc">Zinc</th>
+                    <th data-translate="thIron">Iron</th>
+                    <th data-translate="thVitC">Vit C</th>
+                    <th data-translate="thMg">Mg</th>
+                    <th data-translate="thVitB6">Vit B6</th>
+                    <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                    <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="apple"></td><td>Apple</td><td>52</td><td>0.26</td><td>13.8</td><td>0.17</td><td>0.04</td><td>0.12</td><td>4.6</td><td>5</td><td>0.04</td><td>7</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="avocado"></td><td>Avocado</td><td>160</td><td>2.0</td><td>8.5</td><td>14.7</td><td>0.64</td><td>0.55</td><td>10</td><td>29</td><td>0.26</td><td>0.11</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="banana"></td><td>Banana</td><td>89</td><td>1.09</td><td>22.8</td><td>0.33</td><td>0.15</td><td>0.26</td><td>8.7</td><td>27</td><td>0.37</td><td>27</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="broccoli"></td><td>Broccoli</td><td>34</td><td>2.82</td><td>6.64</td><td>0.37</td><td>0.41</td><td>0.73</td><td>89</td><td>21</td><td>0.18</td><td>80</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="carrot"></td><td>Carrot</td><td>41</td><td>0.93</td><td>9.58</td><td>0.24</td><td>0.24</td><td>0.30</td><td>5.6</td><td>12</td><td>0.14</td><td>12</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="cauliflower"></td><td>Cauliflower</td><td>25</td><td>1.92</td><td>4.97</td><td>0.28</td><td>0.27</td><td>0.42</td><td>44</td><td>15</td><td>0.18</td><td>21</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="gingerRoot"></td><td>Ginger Root</td><td>80</td><td>1.8</td><td>17.8</td><td>0.8</td><td>0.34</td><td>0.6</td><td>5</td><td>43</td><td>0.16</td><td>12</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="onion"></td><td>Onion</td><td>40</td><td>1.1</td><td>9.3</td><td>0.10</td><td>0.17</td><td>0.21</td><td>7.4</td><td>10</td><td>0.12</td><td>20</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="orange"></td><td>Orange</td><td>47</td><td>0.94</td><td>11.75</td><td>0.12</td><td>0.07</td><td>0.10</td><td>53.2</td><td>10</td><td>0.06</td><td>10</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="orangeJuice"></td><td>Orange Juice (raw)</td><td>45</td><td>0.70</td><td>10.0</td><td>0.20</td><td>0.05</td><td>0.20</td><td>50</td><td>11</td><td>0.10</td><td>10</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="pear"></td><td>Pear (with skin)</td><td>57</td><td>0.36</td><td>15.0</td><td>0.14</td><td>0.12</td><td>0.17</td><td>4.3</td><td>7</td><td>0.03</td><td>20</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="potato"></td><td>Potato (flesh‑only, peeled)</td><td>77</td><td>2.0</td><td>17.5</td><td>0.1</td><td>0.29</td><td>0.80</td><td>19.7</td><td>23</td><td>0.30</td><td>10</td><td>0</td></tr>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="tomato"></td><td>Tomato</td><td>18</td><td>0.88</td><td>3.9</td><td>0.20</td><td>0.17</td><td>0.27</td><td>13.7</td><td>11</td><td>0.08</td><td>19</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="apple"></td><td data-translate="foodApple">Apple</td><td>52</td><td>0.26</td><td>13.8</td><td>0.17</td><td>0.04</td><td>0.12</td><td>4.6</td><td>5</td><td>0.04</td><td>7</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="avocado"></td><td data-translate="foodAvocado">Avocado</td><td>160</td><td>2.0</td><td>8.5</td><td>14.7</td><td>0.64</td><td>0.55</td><td>10</td><td>29</td><td>0.26</td><td>0.11</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="banana"></td><td data-translate="foodBanana">Banana</td><td>89</td><td>1.09</td><td>22.8</td><td>0.33</td><td>0.15</td><td>0.26</td><td>8.7</td><td>27</td><td>0.37</td><td>27</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="broccoli"></td><td data-translate="foodBroccoli">Broccoli</td><td>34</td><td>2.82</td><td>6.64</td><td>0.37</td><td>0.41</td><td>0.73</td><td>89</td><td>21</td><td>0.18</td><td>80</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="carrot"></td><td data-translate="foodCarrot">Carrot</td><td>41</td><td>0.93</td><td>9.58</td><td>0.24</td><td>0.24</td><td>0.30</td><td>5.6</td><td>12</td><td>0.14</td><td>12</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="cauliflower"></td><td data-translate="foodCauliflower">Cauliflower</td><td>25</td><td>1.92</td><td>4.97</td><td>0.28</td><td>0.27</td><td>0.42</td><td>44</td><td>15</td><td>0.18</td><td>21</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="gingerRoot"></td><td data-translate="foodGinger">Ginger Root</td><td>80</td><td>1.8</td><td>17.8</td><td>0.8</td><td>0.34</td><td>0.6</td><td>5</td><td>43</td><td>0.16</td><td>12</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="onion"></td><td data-translate="foodOnion">Onion</td><td>40</td><td>1.1</td><td>9.3</td><td>0.10</td><td>0.17</td><td>0.21</td><td>7.4</td><td>10</td><td>0.12</td><td>20</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="orange"></td><td data-translate="foodOrange">Orange</td><td>47</td><td>0.94</td><td>11.75</td><td>0.12</td><td>0.07</td><td>0.10</td><td>53.2</td><td>10</td><td>0.06</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="orangeJuice"></td><td data-translate="foodOrangeJuice">Orange Juice (raw)</td><td>45</td><td>0.70</td><td>10.0</td><td>0.20</td><td>0.05</td><td>0.20</td><td>50</td><td>11</td><td>0.10</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="pear"></td><td data-translate="foodPear">Pear (with skin)</td><td>57</td><td>0.36</td><td>15.0</td><td>0.14</td><td>0.12</td><td>0.17</td><td>4.3</td><td>7</td><td>0.03</td><td>20</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="potato"></td><td data-translate="foodPotato">Potato (flesh‑only, peeled)</td><td>77</td><td>2.0</td><td>17.5</td><td>0.1</td><td>0.29</td><td>0.80</td><td>19.7</td><td>23</td><td>0.30</td><td>10</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="tomato"></td><td data-translate="foodTomato">Tomato</td><td>18</td><td>0.88</td><td>3.9</td><td>0.20</td><td>0.17</td><td>0.27</td><td>13.7</td><td>11</td><td>0.08</td><td>19</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
         <!-- ----------  OILS & FATS  ---------- -->
         <div class="table-wrapper">
-            <div class="category-header">Oils &amp; Fats</div>
+            <div class="category-header" data-translate="categoryOilsFats">Oils &amp; Fats</div>
             <table class="food-table">
                 <thead>
-                <tr><th>Select</th><th>Food</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                    <th>Zinc</th><th>Iron</th><th>Vit C</th><th>Mg</th><th>Vit B6</th><th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th></tr>
+                <tr>
+                    <th data-translate="thSelect">Select</th>
+                    <th data-translate="thFood">Food</th>
+                    <th data-translate="thCals">Cals</th>
+                    <th data-translate="thProtein">Protein</th>
+                    <th data-translate="thCarbs">Carbs</th>
+                    <th data-translate="thFat">Fat</th>
+                    <th data-translate="thZinc">Zinc</th>
+                    <th data-translate="thIron">Iron</th>
+                    <th data-translate="thVitC">Vit C</th>
+                    <th data-translate="thMg">Mg</th>
+                    <th data-translate="thVitB6">Vit B6</th>
+                    <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                    <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr><td><input class="food-checkbox" type="checkbox" data-food="olive oil"></td><td>Olive Oil</td><td>884</td><td>0</td><td>0</td><td>100</td><td>0</td><td>0.56</td><td>0</td><td>0</td><td>0</td><td>760</td><td>0</td></tr>
+                <tr><td><input class="food-checkbox" type="checkbox" data-food="olive oil"></td><td data-translate="foodOliveOil">Olive Oil</td><td>884</td><td>0</td><td>0</td><td>100</td><td>0</td><td>0.56</td><td>0</td><td>0</td><td>0</td><td>760</td><td>0</td></tr>
                 </tbody>
             </table>
         </div>
 
-        <div class="button-container"><button id="continueBtn">Continue to Customise Amounts</button></div>
+        <div class="button-container"><button id="continueBtn" data-translate="btnContinue">Continue to Customise Amounts</button></div>
     </div>
 
     <!-- ========================================================= -->
-    <!-- ===============  STEP 2 – CUSTOMISE  ==================== -->
+    <!-- ===============  STEP 2 – CUSTOMISE  ==================== -->
     <!-- ========================================================= -->
     <div id="customizeCard" class="card" style="display:none;">
-        <h2>Step 2: Customise Food Amounts &amp; Calculate</h2>
-        <p>Enter the amount for each food, then click “Add to Meal &amp; Calculate”.</p>
+        <h2 data-translate="step2Title">Step 2: Customise Food Amounts &amp; Calculate</h2>
+        <p data-translate="step2Description">Enter the amount for each food, then click "Add to Meal &amp; Calculate".</p>
         <div id="selectedFoods" class="food-selection"></div>
         <div class="button-container">
-            <button id="backBtn">Back to Food Selection</button>
-            <button id="addToMealAndCalculateBtn">Add to Meal &amp; Calculate</button>
+            <button id="backBtn" data-translate="btnBack">Back to Food Selection</button>
+            <button id="addToMealAndCalculateBtn" data-translate="btnAddCalculate">Add to Meal &amp; Calculate</button>
         </div>
     </div>
 
     <!-- ========================================================= -->
-    <!-- ===============  STEP 3 – RESULTS  ====================== -->
+    <!-- ===============  STEP 3 – RESULTS  ====================== -->
     <!-- ========================================================= -->
     <div id="resultsCard" class="card" style="display:none;">
         <div id="printableReportArea">
             <h1 id="printReportHeadline" style="text-align:center;color:#333;font-size:24px;margin-bottom:10px;"></h1>
             <p id="printReportDateRange" style="text-align:center;font-size:16px;margin-bottom:20px;"></p>
 
-            <h2>Meal Nutritional Breakdown</h2>
+            <h2 data-translate="mealBreakdownTitle">Meal Nutritional Breakdown</h2>
             <div class="table-wrapper">
                 <table id="mealBreakdownTable">
                     <thead>
                     <tr>
-                        <th>Food Item</th><th>Cals</th><th>Protein</th><th>Carbs</th><th>Fat</th>
-                        <th>Zinc</th><th>Mg</th><th>Vit B6</th><th>Vit C</th>
-                        <th>&Omega;‑3 ALA</th><th>&Omega;‑3 EPA/DHA</th><th>Iron</th>
+                        <th data-translate="thFoodItem">Food Item</th>
+                        <th data-translate="thCals">Cals</th>
+                        <th data-translate="thProtein">Protein</th>
+                        <th data-translate="thCarbs">Carbs</th>
+                        <th data-translate="thFat">Fat</th>
+                        <th data-translate="thZinc">Zinc</th>
+                        <th data-translate="thMg">Mg</th>
+                        <th data-translate="thVitB6">Vit B6</th>
+                        <th data-translate="thVitC">Vit C</th>
+                        <th data-translate="thOmega3ALA">&Omega;‑3 ALA</th>
+                        <th data-translate="thOmega3EPADHA">&Omega;‑3 EPA/DHA</th>
+                        <th data-translate="thIron">Iron</th>
                     </tr>
                     </thead><tbody></tbody>
                 </table>
             </div>
 
-            <h2>Total Nutrition Summary</h2>
+            <h2 data-translate="totalNutritionTitle">Total Nutrition Summary</h2>
             <div class="table-wrapper">
                 <table id="columnarTotalNutritionTable"><thead></thead><tbody></tbody></table>
             </div>
         </div>
 
         <div class="button-container">
-            <button id="editMealBtn">Edit This Meal</button>
-            <button id="downloadSummaryBtn">Download Summary</button>
-            <button id="startOverBtn">Start New Meal</button>
+            <button id="editMealBtn" data-translate="btnEditMeal">Edit This Meal</button>
+            <button id="downloadSummaryBtn" data-translate="btnDownload">Download Summary</button>
+            <button id="startOverBtn" data-translate="btnStartOver">Start New Meal</button>
         </div>
-        <p id="downloadPdfInfo" style="font-size:.9em;color:#777;margin-top:15px;text-align:center;display:none;">
-            In the print dialog choose <strong>Save as PDF</strong>, paper size <strong>Legal</strong>,
-            orientation <strong>Landscape</strong>, and disable headers/footers.
+        <p id="downloadPdfInfo" style="font-size:.9em;color:#777;margin-top:15px;text-align:center;display:none;" data-translate="downloadInfo">
+            In the print dialog choose <strong>Save as PDF</strong>, paper size <strong>Legal</strong>,
+            orientation <strong>Landscape</strong>, and disable headers/footers.
         </p>
     </div>
 </div>
 
 <!-- =============================  JAVASCRIPT  ============================= -->
 <script>
-/* ---------- FOOD DATA ---------- */
+/* ---------- TRANSLATIONS ---------- */
+const translations = {
+    en: {
+        // Site Title
+        siteTitle: "Your Macro Plan",
+        
+        // Step 1
+        step1Title: "Step 1: Select Foods for Your Meal",
+        step1Description: "Check the foods you want to include in your meal (values per 100 g or as stated):",
+        
+        // Step 2
+        step2Title: "Step 2: Customise Food Amounts & Calculate",
+        step2Description: "Enter the amount for each food, then click \"Add to Meal & Calculate\".",
+        
+        // Categories
+        categoryGrains: "Grains & Staples",
+        categoryProteins: "Proteins",
+        categoryNutsSeeds: "Nuts & Seeds",
+        categoryVegFruits: "Vegetables & Fruits",
+        categoryOilsFats: "Oils & Fats",
+        
+        // Table Headers
+        thSelect: "Select",
+        thFood: "Food",
+        thFoodItem: "Food Item",
+        thCals: "Cals",
+        thProtein: "Protein",
+        thCarbs: "Carbs",
+        thFat: "Fat",
+        thZinc: "Zinc",
+        thIron: "Iron",
+        thVitC: "Vit C",
+        thMg: "Mg",
+        thVitB6: "Vit B6",
+        thOmega3ALA: "Ω‑3 ALA",
+        thOmega3EPADHA: "Ω‑3 EPA/DHA",
+        
+        // Buttons
+        btnContinue: "Continue to Customise Amounts",
+        btnBack: "Back to Food Selection",
+        btnAddCalculate: "Add to Meal & Calculate",
+        btnEditMeal: "Edit This Meal",
+        btnDownload: "Download Summary",
+        btnStartOver: "Start New Meal",
+        
+        // Results
+        mealBreakdownTitle: "Meal Nutritional Breakdown",
+        totalNutritionTitle: "Total Nutrition Summary",
+        downloadInfo: "In the print dialog choose <strong>Save as PDF</strong>, paper size <strong>Legal</strong>, orientation <strong>Landscape</strong>, and disable headers/footers.",
+        
+        // Foods
+        foodWholeBread: "Whole Bread",
+        foodBrownRice: "Brown Rice",
+        foodWholeWheatPasta: "Whole‑wheat Pasta",
+        foodChickenBreast: "Chicken Breast",
+        foodBeef95: "Beef (95% lean)",
+        foodBeef90: "Beef (90% lean)",
+        foodBeefLiver: "Beef Liver",
+        foodEgg: "Egg (medium)",
+        foodEggWhite: "Egg White (1 medium)",
+        foodTurkeyBreast: "Turkey Breast, skinless",
+        foodSalmon: "Salmon, Atlantic (wild)",
+        foodTuna: "Tuna, canned light",
+        foodAlmonds: "Almonds",
+        foodWalnuts: "Walnuts",
+        foodPumpkinSeeds: "Pumpkin Seeds",
+        foodCashews: "Cashews",
+        foodApple: "Apple",
+        foodAvocado: "Avocado",
+        foodBanana: "Banana",
+        foodBroccoli: "Broccoli",
+        foodCarrot: "Carrot",
+        foodCauliflower: "Cauliflower",
+        foodGinger: "Ginger Root",
+        foodOnion: "Onion",
+        foodOrange: "Orange",
+        foodOrangeJuice: "Orange Juice (raw)",
+        foodPear: "Pear (with skin)",
+        foodPotato: "Potato (flesh‑only, peeled)",
+        foodTomato: "Tomato",
+        foodOliveOil: "Olive Oil",
+        
+        // Alerts
+        alertSelectFood: "Please select at least one food.",
+        alertProvideAmount: "Provide a positive amount for at least one food.",
+        alertNoMeal: "There's no meal to edit.",
+        
+        // Labels
+        labelAmountG: "amount (g)",
+        labelEnterAmount: "Enter amount (g)",
+        labelNumberOf: "Number of",
+        labelEnterNumber: "Enter number",
+        
+        // Other
+        emptyMeal: "Your meal is empty.",
+        reportTitle: "Your Macro Plan Report",
+        dateRange: "Date Range:",
+        returnToHome: "Return to Home"
+    },
+    fr: {
+        // Site Title
+        siteTitle: "Votre Plan Macro",
+        
+        // Step 1
+        step1Title: "Étape 1: Sélectionnez les aliments pour votre repas",
+        step1Description: "Cochez les aliments que vous souhaitez inclure dans votre repas (valeurs pour 100 g ou comme indiqué) :",
+        
+        // Step 2
+        step2Title: "Étape 2: Personnalisez les quantités d'aliments et calculez",
+        step2Description: "Entrez la quantité pour chaque aliment, puis cliquez sur \"Ajouter au repas et calculer\".",
+        
+        // Categories
+        categoryGrains: "Céréales et aliments de base",
+        categoryProteins: "Protéines",
+        categoryNutsSeeds: "Noix et graines",
+        categoryVegFruits: "Légumes et fruits",
+        categoryOilsFats: "Huiles et graisses",
+        
+        // Table Headers
+        thSelect: "Sélectionner",
+        thFood: "Aliment",
+        thFoodItem: "Article alimentaire",
+        thCals: "Cal",
+        thProtein: "Protéines",
+        thCarbs: "Glucides",
+        thFat: "Lipides",
+        thZinc: "Zinc",
+        thIron: "Fer",
+        thVitC: "Vit C",
+        thMg: "Mg",
+        thVitB6: "Vit B6",
+        thOmega3ALA: "Ω‑3 ALA",
+        thOmega3EPADHA: "Ω‑3 EPA/DHA",
+        
+        // Buttons
+        btnContinue: "Continuer pour personnaliser les quantités",
+        btnBack: "Retour à la sélection des aliments",
+        btnAddCalculate: "Ajouter au repas et calculer",
+        btnEditMeal: "Modifier ce repas",
+        btnDownload: "Télécharger le résumé",
+        btnStartOver: "Commencer un nouveau repas",
+        
+        // Results
+        mealBreakdownTitle: "Répartition nutritionnelle du repas",
+        totalNutritionTitle: "Résumé nutritionnel total",
+        downloadInfo: "Dans la boîte de dialogue d'impression, choisissez <strong>Enregistrer au format PDF</strong>, format de papier <strong>Legal</strong>, orientation <strong>Paysage</strong>, et désactivez les en-têtes/pieds de page.",
+        
+        // Foods
+        foodWholeBread: "Pain complet",
+        foodBrownRice: "Riz brun",
+        foodWholeWheatPasta: "Pâtes complètes",
+        foodChickenBreast: "Poitrine de poulet",
+        foodBeef95: "Bœuf (95% maigre)",
+        foodBeef90: "Bœuf (90% maigre)",
+        foodBeefLiver: "Foie de bœuf",
+        foodEgg: "Œuf (moyen)",
+        foodEggWhite: "Blanc d'œuf (1 moyen)",
+        foodTurkeyBreast: "Poitrine de dinde, sans peau",
+        foodSalmon: "Saumon atlantique (sauvage)",
+        foodTuna: "Thon en conserve (léger)",
+        foodAlmonds: "Amandes",
+        foodWalnuts: "Noix",
+        foodPumpkinSeeds: "Graines de citrouille",
+        foodCashews: "Noix de cajou",
+        foodApple: "Pomme",
+        foodAvocado: "Avocat",
+        foodBanana: "Banane",
+        foodBroccoli: "Brocoli",
+        foodCarrot: "Carotte",
+        foodCauliflower: "Chou-fleur",
+        foodGinger: "Racine de gingembre",
+        foodOnion: "Oignon",
+        foodOrange: "Orange",
+        foodOrangeJuice: "Jus d'orange (cru)",
+        foodPear: "Poire (avec peau)",
+        foodPotato: "Pomme de terre (chair seulement, pelée)",
+        foodTomato: "Tomate",
+        foodOliveOil: "Huile d'olive",
+        
+        // Alerts
+        alertSelectFood: "Veuillez sélectionner au moins un aliment.",
+        alertProvideAmount: "Fournissez une quantité positive pour au moins un aliment.",
+        alertNoMeal: "Il n'y a pas de repas à modifier.",
+        
+        // Labels
+        labelAmountG: "quantité (g)",
+        labelEnterAmount: "Entrez la quantité (g)",
+        labelNumberOf: "Nombre de",
+        labelEnterNumber: "Entrez le nombre",
+        
+        // Other
+        emptyMeal: "Votre repas est vide.",
+        reportTitle: "Votre rapport de plan macro",
+        dateRange: "Plage de dates :",
+        returnToHome: "Retour à l'accueil"
+    },
+    ar: {
+        // Site Title
+        siteTitle: "خطة الماكرو الخاصة بك",
+        
+        // Step 1
+        step1Title: "الخطوة 1: اختر الأطعمة لوجبتك",
+        step1Description: "حدد الأطعمة التي تريد تضمينها في وجبتك (القيم لكل 100 جرام أو كما هو موضح):",
+        
+        // Step 2
+        step2Title: "الخطوة 2: خصص كميات الطعام واحسب",
+        step2Description: "أدخل الكمية لكل طعام، ثم انقر على \"أضف إلى الوجبة واحسب\".",
+        
+        // Categories
+        categoryGrains: "الحبوب والأساسيات",
+        categoryProteins: "البروتينات",
+        categoryNutsSeeds: "المكسرات والبذور",
+        categoryVegFruits: "الخضروات والفواكه",
+        categoryOilsFats: "الزيوت والدهون",
+        
+        // Table Headers
+        thSelect: "اختر",
+        thFood: "الطعام",
+        thFoodItem: "صنف الطعام",
+        thCals: "سعرات",
+        thProtein: "بروتين",
+        thCarbs: "كربوهيدرات",
+        thFat: "دهون",
+        thZinc: "زنك",
+        thIron: "حديد",
+        thVitC: "فيتامين س",
+        thMg: "مغنيسيوم",
+        thVitB6: "فيتامين ب6",
+        thOmega3ALA: "أوميغا-3 ALA",
+        thOmega3EPADHA: "أوميغا-3 EPA/DHA",
+        
+        // Buttons
+        btnContinue: "المتابعة لتخصيص الكميات",
+        btnBack: "العودة لاختيار الطعام",
+        btnAddCalculate: "أضف إلى الوجبة واحسب",
+        btnEditMeal: "تعديل هذه الوجبة",
+        btnDownload: "تحميل الملخص",
+        btnStartOver: "ابدأ وجبة جديدة",
+        
+        // Results
+        mealBreakdownTitle: "التفصيل الغذائي للوجبة",
+        totalNutritionTitle: "ملخص التغذية الكلي",
+        downloadInfo: "في مربع حوار الطباعة اختر <strong>حفظ كـ PDF</strong>، حجم الورق <strong>Legal</strong>، الاتجاه <strong>أفقي</strong>، وعطّل الرؤوس/التذييلات.",
+        
+        // Foods
+        foodWholeBread: "خبز كامل",
+        foodBrownRice: "أرز بني",
+        foodWholeWheatPasta: "معكرونة القمح الكامل",
+        foodChickenBreast: "صدر دجاج",
+        foodBeef95: "لحم بقر (95% خالي من الدهون)",
+        foodBeef90: "لحم بقر (90% خالي من الدهون)",
+        foodBeefLiver: "كبد بقر",
+        foodEgg: "بيضة (متوسطة)",
+        foodEggWhite: "بياض بيضة (1 متوسط)",
+        foodTurkeyBreast: "صدر ديك رومي، بدون جلد",
+        foodSalmon: "سلمون أطلسي (بري)",
+        foodTuna: "تونة معلبة خفيفة",
+        foodAlmonds: "لوز",
+        foodWalnuts: "جوز",
+        foodPumpkinSeeds: "بذور القرع",
+        foodCashews: "كاجو",
+        foodApple: "تفاح",
+        foodAvocado: "أفوكادو",
+        foodBanana: "موز",
+        foodBroccoli: "بروكلي",
+        foodCarrot: "جزر",
+        foodCauliflower: "قرنبيط",
+        foodGinger: "جذر الزنجبيل",
+        foodOnion: "بصل",
+        foodOrange: "برتقال",
+        foodOrangeJuice: "عصير برتقال (طازج)",
+        foodPear: "كمثرى (بالقشر)",
+        foodPotato: "بطاطس (اللب فقط، مقشرة)",
+        foodTomato: "طماطم",
+        foodOliveOil: "زيت زيتون",
+        
+        // Alerts
+        alertSelectFood: "يرجى اختيار طعام واحد على الأقل.",
+        alertProvideAmount: "قدم كمية إيجابية لطعام واحد على الأقل.",
+        alertNoMeal: "لا توجد وجبة للتعديل.",
+        
+        // Labels
+        labelAmountG: "الكمية (جرام)",
+        labelEnterAmount: "أدخل الكمية (جرام)",
+        labelNumberOf: "عدد",
+        labelEnterNumber: "أدخل العدد",
+        
+        // Other
+        emptyMeal: "وجبتك فارغة.",
+        reportTitle: "تقرير خطة الماكرو الخاصة بك",
+        dateRange: "نطاق التاريخ:",
+        returnToHome: "العودة إلى الصفحة الرئيسية"
+    }
+};
+
+/* ---------- FOOD DATA ---------- */
 const foods = {
     "whole bread":{name:"Whole Bread",calories:264,protein:11.4,carbs:45.4,fat:4.0,zinc:1.36,magnesium:56,vitB6:0.16,ala:150,epa:0,dha:0,iron:3.15,vitC:0},
     "olive oil":{name:"Olive Oil",calories:884,protein:0,carbs:0,fat:100,zinc:0,magnesium:0,vitB6:0,ala:760,epa:0,dha:0,iron:0.56,vitC:0},
     "brown rice":{name:"Brown Rice",calories:352,protein:8.0,carbs:76,fat:3.0,zinc:2.0,magnesium:143,vitB6:0.5,ala:40,epa:0,dha:0,iron:1.8,vitC:0},
     "whole-wheat pasta":{name:"Whole‑wheat Pasta",calories:357,protein:14,carbs:73,fat:3.0,zinc:3.0,magnesium:128,vitB6:0.3,ala:70,epa:0,dha:0,iron:3.6,vitC:0},
     "chicken breast":{name:"Chicken Breast",calories:114,protein:22,carbs:0,fat:3.0,zinc:0.7,magnesium:28,vitB6:0.8,ala:13,epa:3,dha:4,iron:0.4,vitC:0},
-    "beef 95% lean":{name:"Beef (95% lean)",calories:131,protein:21,carbs:0,fat:5.0,zinc:5.1,magnesium:22,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.4,vitC:0},
-    "beef 90% lean":{name:"Beef (90% lean)",calories:170,protein:20,carbs:0,fat:10,zinc:4.8,magnesium:20,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.2,vitC:0},
+    "beef 95% lean":{name:"Beef (95% lean)",calories:131,protein:21,carbs:0,fat:5.0,zinc:5.1,magnesium:22,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.4,vitC:0},
+    "beef 90% lean":{name:"Beef (90% lean)",calories:170,protein:20,carbs:0,fat:10,zinc:4.8,magnesium:20,vitB6:0.4,ala:30,epa:6,dha:4,iron:2.2,vitC:0},
     "beefLiver":{name:"Beef Liver",calories:135,protein:20.4,carbs:3.9,fat:3.6,zinc:4.0,iron:4.9,vitC:1.0,magnesium:18,vitB6:0.9,ala:20,epa:6,dha:6},
     "almonds":{name:"Almonds",calories:579,protein:21.2,carbs:21.6,fat:49.9,zinc:3.1,magnesium:268,vitB6:0.14,ala:3,epa:0,dha:0,iron:3.7,vitC:0},
     "walnuts":{name:"Walnuts",calories:654,protein:15.2,carbs:13.7,fat:65.2,zinc:3.1,magnesium:158,vitB6:0.54,ala:9080,epa:0,dha:0,iron:2.9,vitC:1.3},
@@ -314,12 +793,178 @@ const foods = {
     "turkeyBreast":{name:"Turkey Breast, skinless",calories:114,protein:23,carbs:0,fat:1.4,zinc:0.90,iron:0.50,vitC:0,magnesium:30,vitB6:0.81,ala:0,epa:0,dha:0}
 };
 
+// Add translated names for each language
+const foodTranslations = {
+    "whole bread": {
+        en: "Whole Bread",
+        fr: "Pain complet",
+        ar: "خبز كامل"
+    },
+    "olive oil": {
+        en: "Olive Oil",
+        fr: "Huile d'olive",
+        ar: "زيت زيتون"
+    },
+    "brown rice": {
+        en: "Brown Rice",
+        fr: "Riz brun",
+        ar: "أرز بني"
+    },
+    "whole-wheat pasta": {
+        en: "Whole‑wheat Pasta",
+        fr: "Pâtes complètes",
+        ar: "معكرونة القمح الكامل"
+    },
+    "chicken breast": {
+        en: "Chicken Breast",
+        fr: "Poitrine de poulet",
+        ar: "صدر دجاج"
+    },
+    "beef 95% lean": {
+        en: "Beef (95% lean)",
+        fr: "Bœuf (95% maigre)",
+        ar: "لحم بقر (95% خالي من الدهون)"
+    },
+    "beef 90% lean": {
+        en: "Beef (90% lean)",
+        fr: "Bœuf (90% maigre)",
+        ar: "لحم بقر (90% خالي من الدهون)"
+    },
+    "beefLiver": {
+        en: "Beef Liver",
+        fr: "Foie de bœuf",
+        ar: "كبد بقر"
+    },
+    "egg": {
+        en: "Egg (medium)",
+        fr: "Œuf (moyen)",
+        ar: "بيضة (متوسطة)"
+    },
+    "eggWhite": {
+        en: "Egg White (1 medium)",
+        fr: "Blanc d'œuf (1 moyen)",
+        ar: "بياض بيضة (1 متوسط)"
+    },
+    "turkeyBreast": {
+        en: "Turkey Breast, skinless",
+        fr: "Poitrine de dinde, sans peau",
+        ar: "صدر ديك رومي، بدون جلد"
+    },
+    "salmonAtlanticWild": {
+        en: "Salmon, Atlantic (wild)",
+        fr: "Saumon atlantique (sauvage)",
+        ar: "سلمون أطلسي (بري)"
+    },
+    "tunaCannedLight": {
+        en: "Tuna, canned light",
+        fr: "Thon en conserve (léger)",
+        ar: "تونة معلبة خفيفة"
+    },
+    "almonds": {
+        en: "Almonds",
+        fr: "Amandes",
+        ar: "لوز"
+    },
+    "walnuts": {
+        en: "Walnuts",
+        fr: "Noix",
+        ar: "جوز"
+    },
+    "pumpkin seeds": {
+        en: "Pumpkin Seeds",
+        fr: "Graines de citrouille",
+        ar: "بذور القرع"
+    },
+    "cashews": {
+        en: "Cashews",
+        fr: "Noix de cajou",
+        ar: "كاجو"
+    },
+    "apple": {
+        en: "Apple",
+        fr: "Pomme",
+        ar: "تفاح"
+    },
+    "avocado": {
+        en: "Avocado",
+        fr: "Avocat",
+        ar: "أفوكادو"
+    },
+    "banana": {
+        en: "Banana",
+        fr: "Banane",
+        ar: "موز"
+    },
+    "broccoli": {
+        en: "Broccoli",
+        fr: "Brocoli",
+        ar: "بروكلي"
+    },
+    "carrot": {
+        en: "Carrot",
+        fr: "Carotte",
+        ar: "جزر"
+    },
+    "cauliflower": {
+        en: "Cauliflower",
+        fr: "Chou-fleur",
+        ar: "قرنبيط"
+    },
+    "gingerRoot": {
+        en: "Ginger Root",
+        fr: "Racine de gingembre",
+        ar: "جذر الزنجبيل"
+    },
+    "onion": {
+        en: "Onion",
+        fr: "Oignon",
+        ar: "بصل"
+    },
+    "orange": {
+        en: "Orange",
+        fr: "Orange",
+        ar: "برتقال"
+    },
+    "orangeJuice": {
+        en: "Orange Juice (raw)",
+        fr: "Jus d'orange (cru)",
+        ar: "عصير برتقال (طازج)"
+    },
+    "pear": {
+        en: "Pear (with skin)",
+        fr: "Poire (avec peau)",
+        ar: "كمثرى (بالقشر)"
+    },
+    "potato": {
+        en: "Potato (flesh‑only, peeled)",
+        fr: "Pomme de terre (chair seulement, pelée)",
+        ar: "بطاطس (اللب فقط، مقشرة)"
+    },
+    "tomato": {
+        en: "Tomato",
+        fr: "Tomate",
+        ar: "طماطم"
+    }
+};
+
 /* ---------- NUTRIENT ORDER & DISPLAY NAMES ---------- */
 const nutrientOrder = ["calories","protein","carbs","fat","zinc","magnesium","vitB6","vitC","ala","epaDhaCombined","iron"];
 const nutrientDisplayNames = {
-    calories:"Calories", protein:"Protein (g)", carbs:"Carbs (g)", fat:"Fat (g)",
-    zinc:"Zinc (mg)", magnesium:"Magnesium (mg)", vitB6:"Vit B6 (mg)", vitC:"Vit C (mg)",
-    ala:"Ω‑3 ALA (mg)", epaDhaCombined:"Ω‑3 EPA/DHA (mg)", iron:"Iron (mg)"
+    en: {
+        calories:"Calories", protein:"Protein (g)", carbs:"Carbs (g)", fat:"Fat (g)",
+        zinc:"Zinc (mg)", magnesium:"Magnesium (mg)", vitB6:"Vit B6 (mg)", vitC:"Vit C (mg)",
+        ala:"Ω‑3 ALA (mg)", epaDhaCombined:"Ω‑3 EPA/DHA (mg)", iron:"Iron (mg)"
+    },
+    fr: {
+        calories:"Calories", protein:"Protéines (g)", carbs:"Glucides (g)", fat:"Lipides (g)",
+        zinc:"Zinc (mg)", magnesium:"Magnésium (mg)", vitB6:"Vit B6 (mg)", vitC:"Vit C (mg)",
+        ala:"Ω‑3 ALA (mg)", epaDhaCombined:"Ω‑3 EPA/DHA (mg)", iron:"Fer (mg)"
+    },
+    ar: {
+        calories:"سعرات حرارية", protein:"بروتين (جم)", carbs:"كربوهيدرات (جم)", fat:"دهون (جم)",
+        zinc:"زنك (مجم)", magnesium:"مغنيسيوم (مجم)", vitB6:"فيتامين ب6 (مجم)", vitC:"فيتامين س (مجم)",
+        ala:"أوميغا-3 ALA (مجم)", epaDhaCombined:"أوميغا-3 EPA/DHA (مجم)", iron:"حديد (مجم)"
+    }
 };
 
 /* ---------- ADD EPA+DHA COMBINED PROPERTY ---------- */
@@ -330,6 +975,7 @@ for(const k in foods){
 /* ---------- STATE ---------- */
 let selectedFoodsForCurrentCustomization = [];
 let mealItems = [];
+let currentLanguage = 'en';
 
 const selectionCard = document.getElementById('selectionCard');
 const customizeCard  = document.getElementById('customizeCard');
@@ -349,6 +995,68 @@ document.getElementById('editMealBtn').addEventListener('click', prepareToEditMe
 document.getElementById('downloadSummaryBtn').addEventListener('click', downloadSummaryAsPdf);
 document.getElementById('startOverBtn').addEventListener('click', startNewMeal);
 
+/* ---------- LANGUAGE FUNCTIONS ---------- */
+function changeLanguage(lang) {
+    currentLanguage = lang;
+    document.documentElement.lang = lang;
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+    
+    // Update RTL for Arabic
+    document.body.classList.toggle('rtl', lang === 'ar');
+    
+    // Update all translatable elements
+    document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.dataset.translate;
+        if (element.tagName === 'BUTTON' || element.tagName === 'TH' || element.tagName === 'TD' || element.tagName === 'DIV') {
+            element.innerHTML = translations[lang][key] || element.innerHTML;
+        } else {
+            element.innerHTML = translations[lang][key] || element.innerHTML;
+        }
+    });
+    
+    // Update translatable title attributes
+    document.querySelectorAll('[data-translate-title]').forEach(element => {
+        const key = element.dataset.translateTitle;
+        element.title = translations[lang][key] || element.title;
+    });
+    
+    // Update title
+    document.title = translations[lang].siteTitle || "Your Macro Plan";
+    
+    // If we're in the customize step, update the displayed inputs
+    if (customizeCard.style.display === 'block') {
+        displayCustomizeInputs(mealItems.length > 0);
+    }
+    
+    // If we're in the results step, recalculate to update language
+    if (resultsCard.style.display === 'block') {
+        calculateNutrition();
+    }
+}
+
+// Add language button event listeners
+document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => changeLanguage(btn.dataset.lang));
+});
+
+// Add logo click event listener
+const logo = document.querySelector('.logo');
+logo.addEventListener('click', () => {
+    startNewMeal();
+});
+
+// Add keyboard support for logo
+logo.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        startNewMeal();
+    }
+});
+
 /* ---------- NAVIGATION FUNCTIONS ---------- */
 function startNewMeal(){
     mealItems=[]; selectedFoodsForCurrentCustomization=[];
@@ -359,13 +1067,13 @@ function startNewMeal(){
 function goToSelection(){ selectionCard.style.display='block'; customizeCard.style.display='none'; resultsCard.style.display='none'; }
 function goToCustomize(){
     const boxes=[...document.querySelectorAll('.food-checkbox:checked')];
-    if(boxes.length===0){ alert('Please select at least one food.'); return; }
+    if(boxes.length===0){ alert(translations[currentLanguage].alertSelectFood); return; }
     selectedFoodsForCurrentCustomization = boxes.map(cb=>cb.dataset.food);
     displayCustomizeInputs(false);
     selectionCard.style.display='none'; customizeCard.style.display='block'; resultsCard.style.display='none';
 }
 function prepareToEditMeal(){
-    if(mealItems.length===0){ alert("There's no meal to edit."); goToSelection(); return; }
+    if(mealItems.length===0){ alert(translations[currentLanguage].alertNoMeal); goToSelection(); return; }
     displayCustomizeInputs(true);
     selectionCard.style.display='none'; customizeCard.style.display='block'; resultsCard.style.display='none';
 }
@@ -379,13 +1087,20 @@ function displayCustomizeInputs(isEditing){
 
     items.forEach((info,idx)=>{
         const f=foods[info.foodType]; if(!f) return;
+        const foodName = foodTranslations[info.foodType] ? foodTranslations[info.foodType][currentLanguage] : f.name;
         const id=`${info.foodType.replace(/\s+/g,'')}_amt_${idx}`;
         const unit= info.unit || document.querySelector(`.food-checkbox[data-food="${info.foodType}"]`)?.dataset.unit || 'grams';
-        const labelTxt = (unit==='egg'||unit==='egg white') ? `Number of ${f.name}s` : `${f.name} amount (g)`;
-        const placeholder = (unit==='egg'||unit==='egg white') ? 'Enter number' : 'Enter amount (g)';
+        const isEggUnit = (unit==='egg'||unit==='egg white');
+        const labelTxt = isEggUnit 
+            ? `${translations[currentLanguage].labelNumberOf} ${foodName}s` 
+            : `${foodName} ${translations[currentLanguage].labelAmountG}`;
+        const placeholder = isEggUnit 
+            ? translations[currentLanguage].labelEnterNumber 
+            : translations[currentLanguage].labelEnterAmount;
+        
         selectedFoodsContainer.insertAdjacentHTML('beforeend',
             `<div class="food-item">
-                <div class="food-title">${f.name}</div>
+                <div class="food-title">${foodName}</div>
                 <label for="${id}">${labelTxt}</label>
                 <input type="number" id="${id}" min="0" placeholder="${placeholder}"
                        data-food-type="${info.foodType}" data-unit="${unit}"
@@ -402,7 +1117,7 @@ function processCustomizedFoodsAndCalculate(){
         newMeal.push({type:inp.dataset['foodType'], amount:val, unit:inp.dataset['unit']});
         valid=true;
     });
-    if(!valid){ alert('Provide a positive amount for at least one food.'); return; }
+    if(!valid){ alert(translations[currentLanguage].alertProvideAmount); return; }
     mealItems=newMeal;
     document.querySelectorAll('.food-checkbox:checked').forEach(cb=>cb.checked=false);
     selectedFoodsForCurrentCustomization=[];
@@ -411,7 +1126,7 @@ function processCustomizedFoodsAndCalculate(){
 
 function calculateNutrition(){
     if(mealItems.length===0){
-        mealBreakdownTableBody.innerHTML='<tr><td colspan="12" style="text-align:center;">Your meal is empty.</td></tr>';
+        mealBreakdownTableBody.innerHTML=`<tr><td colspan="12" style="text-align:center;">${translations[currentLanguage].emptyMeal}</td></tr>`;
         columnarTotalThead.innerHTML=''; columnarTotalTbody.innerHTML='';
         selectionCard.style.display='none'; customizeCard.style.display='none'; resultsCard.style.display='block';
         return;
@@ -421,10 +1136,11 @@ function calculateNutrition(){
 
     mealItems.forEach(item=>{
         const d=foods[item.type]; if(!d) return;
+        const foodName = foodTranslations[item.type] ? foodTranslations[item.type][currentLanguage] : d.name;
         const factor=(item.unit==='egg'||item.unit==='egg white') ? item.amount : item.amount/100;
         const row=mealBreakdownTableBody.insertRow();
-        row.insertCell().textContent = d.name + (item.unit==='egg'||item.unit==='egg white'
-                                               ? ` (${item.amount} ${item.unit}${item.amount>1?'s':''})`
+        row.insertCell().textContent = foodName + (item.unit==='egg'||item.unit==='egg white'
+                                               ? ` (${item.amount} ${item.unit}${item.amount>1?'s':''})`
                                                : ` (${item.amount}g)`);
 
         nutrientOrder.forEach(n=>{
@@ -436,7 +1152,7 @@ function calculateNutrition(){
 
     const h=columnarTotalThead.insertRow(), v=columnarTotalTbody.insertRow();
     nutrientOrder.forEach(n=>{
-        h.insertCell().innerHTML=nutrientDisplayNames[n];
+        h.insertCell().innerHTML=nutrientDisplayNames[currentLanguage][n];
         v.insertCell().textContent = (n==='calories' ? totals[n].toFixed(0) : totals[n].toFixed(totals[n]<1?2:1));
     });
 
@@ -446,11 +1162,12 @@ function calculateNutrition(){
 
 /* ---------- DOWNLOAD / PRINT ---------- */
 function downloadSummaryAsPdf(){
-    document.getElementById('printReportHeadline').textContent='Your Macro Plan Report';
+    document.getElementById('printReportHeadline').textContent=translations[currentLanguage].reportTitle;
     const today=new Date(), later=new Date(); later.setDate(today.getDate()+10);
     const opts={year:'numeric',month:'long',day:'numeric'};
+    const locale = currentLanguage === 'ar' ? 'ar-SA' : currentLanguage === 'fr' ? 'fr-FR' : 'en-US';
     document.getElementById('printReportDateRange').textContent =
-        `Date Range: ${today.toLocaleDateString(undefined,opts)} – ${later.toLocaleDateString(undefined,opts)}`;
+        `${translations[currentLanguage].dateRange} ${today.toLocaleDateString(locale,opts)} – ${later.toLocaleDateString(locale,opts)}`;
 
     document.body.classList.add('body-is-printing');
     window.print();
